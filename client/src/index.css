@@ -1,0 +1,6 @@
+body {
+  margin: 0;
+  background-color: #5b370f;
+  transition: all linear 0.3s;
+  overflow-x: hidden;
+}

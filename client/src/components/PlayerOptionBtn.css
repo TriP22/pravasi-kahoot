@@ -1,0 +1,25 @@
+.player-option-btn {
+  box-shadow: 0px 0.365655px 1.82828px rgba(0, 0, 0, 0.15),
+    inset 0px 0.365655px 3.65655px #573d2a;
+  backdrop-filter: blur(9px);
+
+  border-radius: 18px;
+  padding: 8px 24px 8px 24px;
+  width: 100%;
+
+  background: rgba(117, 52, 1, 0.2);
+  mix-blend-mode: normal;
+  border: 1.75px solid #ffecbc;
+  box-shadow: inset 0px 5px 15px rgba(0, 0, 0, 0.25);
+  border-radius: 18px;
+}
+
+.player-option-btn-text {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 200%;
+
+  color: #ffecbc;
+}
