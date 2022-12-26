@@ -215,7 +215,7 @@
 
 .game-question-numbers {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   margin: auto;
   overflow-x: scroll;
   max-width: 400px;

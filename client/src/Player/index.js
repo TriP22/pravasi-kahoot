@@ -140,6 +140,7 @@ function Player() {
             {[{}, 1, 2, 3, 4, 5, 6, 7, 8, 9, 3, 4, 4, 4, 44].map(
               (item, index) => (
                 <div
+                  key={index}
                   className={
                     index === 2
                       ? "game-question-number-selected"

@@ -1,52 +1,52 @@
-.host-nav {
-  display: flex;
-  justify-content: center;
+.host-bottom-nav {
   position: fixed;
-  bottom: 0;
+  bottom: 0px;
   width: 100%;
-}
-
-.host-home-btn {
-  padding: 16px 16px 24px 16px;
-  text-align: -webkit-center;
-}
-.host-lg-btn {
-  padding: 16px 16px 24px 16px;
-  text-align: -webkit-center;
+  display: flex;
+  justify-content: space-between;
 }
 
 /* SPLASH */
-.splash-center {
+.host-splash-center {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
-  max-width: 400px;
 }
 
-.splash-heading {
-  padding: 16px 16px 24px 16px;
+.host-splash-heading {
   font-family: "Playfair Display";
   font-style: normal;
   font-weight: 700;
-  font-size: 32px;
+  font-size: 72px;
+
+  text-align: center;
 
   color: #ffecbc;
 
   mix-blend-mode: normal;
 }
 
-.splash-select-english {
+.host-splash-bottom-nav {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  width: 100%;
+}
+
+.host-splash-select-english {
   font-family: "Montserrat";
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
 
   color: #ffffff;
+  padding-bottom: 8px;
 }
 
-.splash-select-hindi {
+.host-splash-select-hindi {
   font-family: "Poppins";
   font-style: normal;
   font-weight: 500;
@@ -55,82 +55,71 @@
   text-align: center;
 
   color: #ffffff;
-}
-
-.splash-lg-btn {
-  padding: 16px 16px 24px 16px;
-  text-align: -webkit-center;
+  padding-bottom: 24px;
 }
 
 /* REGISTER */
-.register-center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.host-register-center {
   width: 100%;
-  max-width: 400px;
+  padding-top: 64px;
 }
 
-.register-heading {
-  padding: 16px 16px 48px 16px;
+.host-register-heading {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 50px;
+  line-height: 140%;
+
+  text-align: center;
+
+  color: #ffecbc;
+}
+
+.host-register-subheading {
+  font-family: "Montserrat";
+  font-style: italic;
+  font-weight: 500;
+  font-size: 21px;
+  line-height: 200%;
+
+  text-align: center;
+
+  color: #ffecbc;
+}
+
+.host-register-intro-content {
   font-family: "Playfair Display";
   font-style: normal;
   font-weight: 700;
-  font-size: 24px;
+  font-size: 30px;
+  line-height: 200%;
 
-  color: #ffecbc;
-
-  mix-blend-mode: normal;
-}
-
-.register-input {
-  background: rgba(125, 83, 38, 0.5);
-  border: 1.5px solid #ffecbc;
-  box-shadow: inset 0px 3px 7.5px rgba(0, 0, 0, 0.25);
-  border-radius: 500px;
-
-  padding: 8px 16px 8px 16px;
   text-align: center;
 
-  font-size: 18px;
-
-  color: #ffffff;
-}
-
-.register-input::-webkit-input-placeholder {
-  color: #a4a4a4;
-}
-
-.register-input:focus {
-  color: #ffffff;
-}
-
-.register-next-btn {
-  background: rgba(41, 28, 13, 0.63);
-  mix-blend-mode: hard-light;
-  border: 1.71052px solid #ffebce;
-  box-shadow: 0px 0px 2.99342px #ffb9a3,
-    inset 0px 0px 2.73684px 0.342105px rgba(0, 0, 0, 0.5);
-  border-radius: 500px;
-
   color: #ffecbc;
-
-  font-size: 18px;
-  padding: 8px 32px 8px 32px;
+  padding: 24px 0 24px 0;
 }
 
 /* LOBBY */
-.lobby-center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.host-lobby-center {
   width: 100%;
-  max-width: 400px;
+  padding-top: 64px;
 }
 
-.lobby-heading {
+.host-lobby-heading {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 50px;
+  line-height: 140%;
+
+  text-align: center;
+
+  color: #ffecbc;
+}
+
+.host-lobby-waiting-heading {
   padding: 0px 16px 16px 16px;
   font-family: "Playfair Display";
   font-style: normal;
@@ -144,7 +133,7 @@
   text-align: center;
 }
 
-.lobby-subheading {
+.host-lobby-subheading {
   font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
@@ -155,123 +144,186 @@
   color: #ffecbc;
 }
 
-/* GAME */
-.game-center {
-  text-align: center;
+.host-lobby-center-names {
   width: 100%;
-  text-align: -webkit-center;
-}
-
-.game-question {
-  padding: 64px 16px 24px 16px;
-  font-family: "Playfair Display";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 24px;
-
-  text-align: center;
-
-  color: #ffecbc;
-  max-width: 400px;
-}
-
-.game-options {
-  display: flex;
-  justify-content: space-between;
-  max-width: 400px;
+  max-width: 1600px;
+  margin: auto;
   padding-top: 48px;
 }
 
-.game-options-col-1 {
-  width: 100%;
+.host-lobby-name-chip-wrap {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
-.game-option-div {
-  padding: 16px;
-}
-
-.game-options-col-2 {
-  height: 100%;
-  padding-top: 115px;
-}
-
-.game-timer-div {
-  background: radial-gradient(50% 50% at 50% 50%, #66421c 0%, #201307 100%);
-  border: 1.31769px solid #ffecbc;
+.host-lobby-name-chip {
+  background: linear-gradient(90deg, #ffecbc -208%, #ffecbc 50%, #ffecbc 135%);
+  mix-blend-mode: normal;
+  border: 1.75px solid #72451c;
+  box-shadow: inset 1px -1px 14px rgba(0, 0, 0, 0.25);
   border-radius: 500px;
-}
-.game-timer-text {
+
   font-family: "Montserrat";
   font-style: normal;
   font-weight: 700;
-  font-size: 24px;
+  font-size: 22px;
+
+  text-align: center;
+
+  color: #573d2a;
+  text-transform: uppercase;
+  padding: 32px 120px 32px 120px;
+  margin: 16px;
+}
+
+.host-lobby-start-btn {
+  background: rgba(41, 28, 13, 0.63);
+  mix-blend-mode: hard-light;
+  border: 3.5px solid #ffebce;
+  box-shadow: 0px 0px 6px #ffb9a3, inset 0px 0px 5.5px 1px rgba(0, 0, 0, 0.5);
+  border-radius: 500px;
+
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 180%;
+  /* identical to box height, or 68px */
 
   text-align: center;
 
   color: #ffecbc;
-  padding: 16px;
-  margin: auto;
-}
+  padding: 8px 72px 8px 72px;
 
-.game-question-numbers {
-  display: flex;
-  justify-content: start;
-  margin: auto;
-  overflow-x: scroll;
-  max-width: 400px;
-  padding: 32px 16px 32px 16px;
-}
-
-.game-question-number {
-  border: 1px solid #ffffff00;
-  border-radius: 4px;
-  padding: 4px 8px 4px 8px;
-  margin-right: 2px;
-}
-
-.game-question-number-selected {
-  background: #745331;
-  border: 1px solid #ffffff;
-  box-shadow: 1px -1px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 4px;
-  padding: 4px 8px 4px 8px;
-  margin-right: 2px;
-}
-
-.game-question-number-text {
-  font-family: "Montserrat";
-  font-style: normal;
-  font-weight: 600;
-  font-size: 16px;
-  color: #ffffff;
-}
-
-.host-game-nav {
-  display: flex;
-  justify-content: center;
   position: fixed;
-  bottom: 0;
-  width: 100%;
+  bottom: 150px;
+  left: 50%;
+  transform: translate(-50%);
 }
 
-/* RESULT */
-.result-center {
+/* GAME */
+.host-game-center {
+  text-align: center;
+  width: 100%;
+
+  max-width: 1500px;
+  margin: auto;
+  text-align: -webkit-center;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 100%;
-  max-width: 400px;
 }
 
-.result-result-text {
-  padding: 0px 16px 32px 16px;
+.host-game-question {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 52px;
+
+  /* identical to box height, or 108px */
+
+  text-align: center;
+
+  color: #ffecbc;
+  padding-top: 64px;
+  max-width: 1500px;
+  margin: auto;
+}
+
+.host-game-options {
+  display: flex;
+  justify-content: space-between;
+}
+
+.host-game-options-col-1 {
+  width: 100%;
+}
+
+.host-game-option-div {
+  padding: 48px;
+}
+
+.host-game-options-col-2 {
+  height: 100%;
+  padding-top: 115px;
+}
+
+.host-game-timer-div {
+  background: radial-gradient(50% 50% at 50% 50%, #66421c 0%, #201307 100%);
+  border: 3px solid #ffecbc;
+  border-radius: 500px;
+}
+.host-game-timer-text {
+  padding: 56px;
+  margin: auto;
+
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 60px;
+
+  text-align: center;
+
+  color: #ffecbc;
+}
+
+.host-game-numbers {
+  display: flex;
+  justify-content: center;
+
+  position: fixed;
+  bottom: 50px;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+.host-game-number-selected {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 32px;
+
+  text-align: center;
+
+  color: #fff;
+
+  text-shadow: 1.5px -2px 8.5px rgba(0, 0, 0, 0.25);
+  margin: 16px;
+
+  background: #745331;
+  border: 1.56048px solid #ffffff;
+  box-shadow: 1.5px -2px 8.5px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  padding: 10px 20px;
+}
+
+.host-game-number {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 32px;
+
+  text-align: center;
+
+  color: rgba(255, 255, 255, 0.6);
+
+  text-shadow: 1.5px -2px 8.5px rgba(0, 0, 0, 0.25);
+  margin: 16px;
+
+  padding: 10px 20px;
+}
+
+/* RESULT */
+.host-result-heading {
   font-family: "Playfair Display";
   font-style: normal;
   font-weight: 700;
   font-size: 56px;
-  line-height: 207%;
-  /* or 115px */
+  line-height: 200%;
 
   text-align: center;
 
@@ -279,64 +331,18 @@
 
   mix-blend-mode: normal;
   text-shadow: 0px 3px 7px rgba(0, 0, 0, 0.25);
+  padding-top: 48px;
 }
 
-.result-congrats-text {
-  padding: 0px 16px 8px 16px;
-  font-family: "Montserrat";
+.host-result-subheading {
+  font-family: "Playfair Display";
   font-style: normal;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 50px;
+  line-height: 125%;
 
   text-align: center;
 
   color: #ffecbc;
-}
-
-.result-rank {
-  background: radial-gradient(
-    50% 50% at 50% 50%,
-    rgba(104, 96, 96, 0) 0%,
-    #ffe091 100%
-  );
-  border: 8px solid #ffecbc;
-  border-radius: 50%;
-  height: 150px;
-  width: 150px;
-  margin: auto;
-}
-
-.result-rank-text {
-  font-family: "Playfair Display";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 90px;
-  line-height: 131px;
-  text-align: center;
-
-  color: #ffffff;
-}
-
-.result-restart-btn {
-  background: linear-gradient(120deg, #ffd78a 0%, #bc906d 75%, #401f08 105%);
-  border: 1px solid #ffe0a3;
-  box-shadow: 0px 0.5px 3px rgba(0, 0, 0, 0.15), inset 0px 0.5px 5px #573d2a;
-  backdrop-filter: blur(15px);
-
-  border-radius: 500px;
-
-  padding: 8px 16px 8px 16px;
-  margin-top: 32px;
-}
-
-.result-restart-btn-text {
-  font-family: "Montserrat";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 14px;
-  /* identical to box height, or 29px */
-
-  text-align: center;
-
-  color: #573d2a;
+  padding-top: 24px;
 }

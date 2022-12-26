@@ -1,18 +1,130 @@
 import React, { useState } from "react";
+
+import { QRCode } from "react-qrcode-logo";
 import "./index.css";
-import SplashBg from "../assets/splash_bg_mob.jpg";
-import BackgroundImage from "../assets/register_bg.png";
+import SplashBg from "../assets/splash_bg.jpg";
+import RegisterBg from "../assets/register_bg.jpg";
 import Loader from "../assets/loader.svg";
-import LanguageBtn from "../components/LanguageBtn";
+
 import HomeBtn from "../components/HomeBtn";
-import PlayerOptionBtn from "../components/PlayerOptionBtn";
+import LanguageBtn from "../components/LanguageBtn";
+import RestartGameBtn from "../components/RestartGameBtn";
+import HostOption from "../components/HostOption";
+
+const Players = [
+  {
+    hostId: "kjsdnfkjs",
+    playerId: "skvjnskjdv",
+    name: "Bunty",
+    gameData: {},
+  },
+  {
+    hostId: "kjsdnfkjs",
+    playerId: "asd",
+    name: "Bubli",
+    gameData: {},
+  },
+
+  {
+    hostId: "kjsdnfkjs",
+    playerId: "sfasfsaf",
+    name: "Jugmohan",
+    gameData: {},
+  },
+  {
+    hostId: "kjsdnfkjs",
+    playerId: "skvjnskjdv",
+    name: "Bunty",
+    gameData: {},
+  },
+  {
+    hostId: "kjsdnfkjs",
+    playerId: "asd",
+    name: "Bubli Bouncer",
+    gameData: {},
+  },
+  {
+    hostId: "kjsdnfkjs",
+    playerId: "asd",
+    name: "Bubli",
+    gameData: {},
+  },
+
+  {
+    hostId: "kjsdnfkjs",
+    playerId: "sfasfsaf",
+    name: "Jugmohan Khan",
+    gameData: {},
+  },
+  {
+    hostId: "kjsdnfkjs",
+    playerId: "sfasfsaf",
+    name: "Puspa",
+    gameData: {},
+  },
+  {
+    hostId: "kjsdnfkjs",
+    playerId: "sfasfsaf",
+    name: "Jonti",
+    gameData: {},
+  },
+  {
+    hostId: "kjsdnfkjs",
+    playerId: "sfasfsaf",
+    name: "jumjod",
+    gameData: {},
+  },
+  {
+    hostId: "kjsdnfkjs",
+    playerId: "sfasfsaf",
+    name: "Rappperiya",
+    gameData: {},
+  },
+  {
+    hostId: "kjsdnfkjs",
+    playerId: "sfasfsaf",
+    name: "Puspa",
+    gameData: {},
+  },
+  {
+    hostId: "kjsdnfkjs",
+    playerId: "sfasfsaf",
+    name: "Jonti",
+    gameData: {},
+  },
+  {
+    hostId: "kjsdnfkjs",
+    playerId: "sfasfsaf",
+    name: "jumjod",
+    gameData: {},
+  },
+  {
+    hostId: "kjsdnfkjs",
+    playerId: "sfasfsaf",
+    name: "Puspa",
+    gameData: {},
+  },
+  {
+    hostId: "kjsdnfkjs",
+    playerId: "sfasfsaf",
+    name: "Jonti",
+    gameData: {},
+  },
+  {
+    hostId: "kjsdnfkjs",
+    playerId: "sfasfsaf",
+    name: "jumjod",
+    gameData: {},
+  },
+  {
+    hostId: "kjsdnfkjs",
+    playerId: "sfasfsaf",
+    name: "Rappperiya",
+    gameData: {},
+  },
+];
 
 function Host() {
-  const [firstName, setFirstName] = useState("");
-
-  const handleNameChange = (event) => {
-    setFirstName(event.target.value);
-  };
   return (
     <>
       {/* SPLASH */}
@@ -25,50 +137,81 @@ function Host() {
           overflow: "hidden",
         }}
       >
-        <div className="splash-center">
-          <div className="splash-heading">Pravasi Bhartiya Diwas Quiz</div>
-          <div className="splash-select-english">Select language</div>
-          <div className="splash-select-hindi">भाषा का चयन करें</div>
-          <div className="splash-lg-btn">
-            <LanguageBtn />
-          </div>
+        <div className="host-splash-center">
+          <div className="host-splash-heading">Pravasi Bhartiya Diwas Quiz</div>
+        </div>
+        <div className="host-splash-bottom-nav">
+          <div className="host-splash-select-english">Select language</div>
+          <div className="host-splash-select-hindi">भाषा का चयन करें</div>
+          <LanguageBtn iconSize={40} />
         </div>
       </div> */}
 
-      {/* REGISTER */}
+      {/* SPLASH */}
       {/* <div
         style={{
-          backgroundImage: `url(${BackgroundImage})`,
+          backgroundImage: `url(${RegisterBg})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           minHeight: "100vh",
           overflow: "hidden",
         }}
       >
-        <div className="register-center">
-          <div className="register-heading">Register Yourself</div>
-
-          <div style={{ padding: 16 }}>
-            <input
-              className="register-input"
-              placeholder="Nickname"
-              maxLength={20}
-              type="text"
-              id="first_name"
-              name="first_name"
-              value={firstName}
-              onChange={handleNameChange}
+        <div className="host-register-center">
+          <div className="host-register-heading">Instructions</div>
+          <div className="host-register-subheading">
+            ( Minimum two players are required to play the game )
+          </div>
+          <div className="host-register-intro-content">
+            1. Pick a device among the five devices in front of you. <br />
+            2. Enter your name in one of the device and start the game <br />
+            3. To play with your own device connect it to the lorem Wi-Fi <br />
+            4. Then scan the QR Code below to play the game
+          </div>
+          <div
+            style={{
+              padding: 48,
+            }}
+          >
+            <QRCode
+              value={window.location.origin}
+              bgColor="#ffffff00"
+              fgColor="#ffffff"
             />
           </div>
 
-          <button className="register-next-btn">Next</button>
-        </div>
-        <div className="host-nav">
-          <div className="host-home-btn">
-            <HomeBtn />
+          <div className="host-register-heading">Rules</div>
+          <div className="host-register-intro-content">
+            1. Each Question only has one correct answer <br />
+            2. Each Person will have 30 seconds to answer the question <br />
+            3. The first person to give the right answer will get more points
+            <br />
           </div>
-          <div className="host-lg-btn">
-            <LanguageBtn />
+        </div>
+        <div className="host-bottom-nav">
+          <div
+            style={{
+              paddingLeft: 64,
+              paddingBottom: 32,
+            }}
+          >
+            <RestartGameBtn iconSize={40} />
+          </div>
+          <div
+            style={{
+              paddingRight: 64,
+              paddingBottom: 32,
+              display: "flex",
+            }}
+          >
+            <div
+              style={{
+                paddingRight: 16,
+              }}
+            >
+              <HomeBtn iconSize={40} />
+            </div>
+            <LanguageBtn iconSize={40} />
           </div>
         </div>
       </div> */}
@@ -76,24 +219,58 @@ function Host() {
       {/* LOBBY */}
       {/* <div
         style={{
-          backgroundImage: `url(${BackgroundImage})`,
+          backgroundImage: `url(${RegisterBg})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           minHeight: "100vh",
           overflow: "hidden",
         }}
       >
-        <div className="lobby-center">
-          <img src={Loader} alt="loading..." height={100} />
-          <div className="lobby-heading">Waiting...</div>
-          <div className="lobby-subheading">for hosts to join</div>
+        <div className="host-register-center">
+          <div className="host-lobby-heading">Players joined so far</div>
         </div>
-        <div className="host-nav">
-          <div className="host-home-btn">
-            <HomeBtn />
+        <div className="host-lobby-center-names">
+          {Players.length > 0 ? (
+            <div className="host-lobby-name-chip-wrap">
+              {Players.map((item, index) => (
+                <div className="host-lobby-name-chip" key={index}>
+                  {item.name}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <>
+              <img src={Loader} alt="loading..." height={150} />
+              <div className="host-lobby-waiting-heading">Waiting...</div>
+              <div className="host-lobby-subheading">for players to join</div>
+            </>
+          )}
+        </div>
+        <button className="host-lobby-start-btn">Start</button>
+        <div className="host-bottom-nav">
+          <div
+            style={{
+              paddingLeft: 64,
+              paddingBottom: 32,
+            }}
+          >
+            <RestartGameBtn iconSize={40} />
           </div>
-          <div className="host-lg-btn">
-            <LanguageBtn />
+          <div
+            style={{
+              paddingRight: 64,
+              paddingBottom: 32,
+              display: "flex",
+            }}
+          >
+            <div
+              style={{
+                paddingRight: 16,
+              }}
+            >
+              <HomeBtn iconSize={40} />
+            </div>
+            <LanguageBtn iconSize={40} />
           </div>
         </div>
       </div> */}
@@ -101,79 +278,82 @@ function Host() {
       {/* GAME */}
       {/* <div
         style={{
-          backgroundImage: `url(${BackgroundImage})`,
+          backgroundImage: `url(${RegisterBg})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           minHeight: "100vh",
-          //   overflow: "hidden",
+          overflow: "hidden",
         }}
       >
-        <div className="game-center">
-          <div className="game-question">
-            When was the Pravasi Bhartiya Diwas held for the first time?
-          </div>
-          <div className="game-options">
-            <div className="game-options-col-1">
-              <div className="game-option-div">
-                <PlayerOptionBtn optionNumber={1} />
+        <div className="host-game-question">
+          When was the Pravasi Bhartiya Diwas held for the first time? When was
+          the Pravasiya Diwas held for the first time? When was Pravasi Bhartiya
+          Diwas held for the first time?
+        </div>
+        <div className="host-game-center">
+          <div className="host-game-options">
+            <div className="host-game-options-col-1">
+              <div className="host-game-option-div">
+                <HostOption optionNumber={1} optionText={"2021"} />
               </div>
-              <div className="game-option-div">
-                <PlayerOptionBtn optionNumber={3} />
-              </div>
-            </div>
-            <div className="game-options-col-2">
-              <div className="game-timer-div">
-                <div className="game-timer-text">30</div>
+              <div className="host-game-option-div">
+                <HostOption optionNumber={3} optionText={"1947"} />
               </div>
             </div>
-            <div className="game-options-col-1">
-              <div className="game-option-div">
-                <PlayerOptionBtn optionNumber={2} />
-              </div>
-              <div className="game-option-div">
-                <PlayerOptionBtn optionNumber={4} />
+            <div className="host-game-options-col-2">
+              <div className="host-game-timer-div">
+                <div className="host-game-timer-text">30</div>
               </div>
             </div>
-          </div>
-
-          <div className="game-question-numbers">
-            {[{}, 1, 2, 3, 4, 5, 6, 7, 8, 9, 3, 4, 4, 4, 44].map(
-              (item, index) => (
-                <div
-                  className={
-                    index === 2
-                      ? "game-question-number-selected"
-                      : "game-question-number"
-                  }
-                >
-                  <div className="game-question-number-text">{index + 1}</div>
-                </div>
-              )
-            )}
+            <div className="host-game-options-col-1">
+              <div className="host-game-option-div">
+                <HostOption optionNumber={2} optionText={"1800"} />
+              </div>
+              <div className="host-game-option-div">
+                <HostOption optionNumber={4} optionText={"2022"} />
+              </div>
+            </div>
           </div>
         </div>
-        <div
-          style={{
-            height: 84,
-          }}
-        />
-        <div className="host-game-nav">
+        <div className="host-game-numbers">
+          {[2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 5, 5].map((item, index) => (
+            <div
+              className={
+                index === 2 ? "host-game-number-selected" : "host-game-number"
+              }
+              key={index}
+            >
+              {index + 1}
+            </div>
+          ))}
+        </div>
+
+        <button className="host-lobby-start-btn">Next</button>
+
+        <div className="host-bottom-nav">
           <div
             style={{
-              position: "absolute",
-              backgroundImage: `url(${BackgroundImage})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              minHeight: "100%",
-              width: "100%",
-              overflow: "hidden",
+              paddingLeft: 64,
+              paddingBottom: 32,
             }}
-          />
-          <div className="host-home-btn">
-            <HomeBtn />
+          >
+            <RestartGameBtn iconSize={40} />
           </div>
-          <div className="host-lg-btn">
-            <LanguageBtn />
+          <div
+            style={{
+              paddingRight: 64,
+              paddingBottom: 32,
+              display: "flex",
+            }}
+          >
+            <div
+              style={{
+                paddingRight: 16,
+              }}
+            >
+              <HomeBtn iconSize={40} />
+            </div>
+            <LanguageBtn iconSize={40} />
           </div>
         </div>
       </div> */}
@@ -181,29 +361,39 @@ function Host() {
       {/* RESULT */}
       <div
         style={{
-          backgroundImage: `url(${BackgroundImage})`,
+          backgroundImage: `url(${RegisterBg})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           minHeight: "100vh",
           overflow: "hidden",
         }}
       >
-        <div className="result-center">
-          <div className="result-result-text">Pravasi Bhartiya Diwas Quiz</div>
-          <div className="result-congrats-text">Leaderboard</div>
-          <div className="result-rank">
-            <div className="result-rank-text">111</div>
+        <div className="host-result-heading">Pravasi Bhartiya Diwas Quiz</div>
+        <div className="host-result-subheading">Leaderboard</div>
+        <div className="host-bottom-nav">
+          <div
+            style={{
+              paddingLeft: 64,
+              paddingBottom: 32,
+            }}
+          >
+            <RestartGameBtn iconSize={40} />
           </div>
-          <button className="result-restart-btn">
-            <div className="result-restart-btn-text">Restart Game</div>
-          </button>
-        </div>
-        <div className="host-nav">
-          <div className="host-home-btn">
-            <HomeBtn />
-          </div>
-          <div className="host-lg-btn">
-            <LanguageBtn />
+          <div
+            style={{
+              paddingRight: 64,
+              paddingBottom: 32,
+              display: "flex",
+            }}
+          >
+            <div
+              style={{
+                paddingRight: 16,
+              }}
+            >
+              <HomeBtn iconSize={40} />
+            </div>
+            <LanguageBtn iconSize={40} />
           </div>
         </div>
       </div>
