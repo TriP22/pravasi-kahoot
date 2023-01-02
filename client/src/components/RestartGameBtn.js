@@ -1,9 +1,9 @@
 import React from "react";
 import "./RestartGameBtn.css";
 
-function RestartGameBtn({ iconSize = 24 }) {
+function RestartGameBtn({ iconSize = 24, onClick, text }) {
   return (
-    <button className="lang-btn">
+    <button className="lang-btn" onClick={onClick}>
       <div
         style={{
           lineHeight: `${iconSize}px`,
@@ -15,7 +15,7 @@ function RestartGameBtn({ iconSize = 24 }) {
           color: "#573D2A",
         }}
       >
-        Restart Game
+        {text}
       </div>
     </button>
   );

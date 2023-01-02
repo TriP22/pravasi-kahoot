@@ -1,0 +1,217 @@
+{
+  "unique_id": "",
+  "block": "",
+  "floor": "",
+  "zone": "",
+  "exhibit": "",
+  "exhibit_code": "",
+  "color_primary": "#FFBA6E",
+  "color_secondary": "#FFFFFF",
+  "bg_image": "",
+  "languages": [
+    {
+      "id": 1,
+      "language": "English",
+      "language_name": "Language",
+      "title": "Pravasi Bhartiya Diwas Quiz",
+      "instructions": "Instructions",
+      "mintwo": "( Minimum two players are  required to play the game )",
+      "point1": "Pick a device among the five devices in front of you.",
+      "point2": "Enter your name in one of the device and start the game.",
+      "point3": "To play with your own device connect it to the lorem Wi-Fi.",
+      "point4": "Then scan the QR Code below to play the game.",
+      "rules": "Rules",
+      "rule1": "Each Question only has one correct answer",
+      "rule2": "Each Person will have 30 seconds to answer the question",
+      "rule3": "The first person to give the right answer will get more points ",
+      "next": "Next",
+      "restat_game": "Restat Game",
+      "start": "Start",
+      "player_joined": "Players joined so far",
+      "waiting": "Waiting...",
+      "for_players": "for players to join",
+      "questions": [
+        {
+          "id": 1,
+          "question": "Name the Ashram establishd by Gandhiji in South Africa.",
+          "options": [
+            {
+              "id": 1,
+              "text": "Jugatram Dave's ashram",
+              "correct": false
+            },
+            {
+              "id": 2,
+              "text": "Maganwadi Ashram",
+              "correct": false
+            },
+            {
+              "id": 3,
+              "text": "Phoenix Ashram",
+              "correct": true
+            },
+            {
+              "id": 4,
+              "text": "Sabarmati Ashram ",
+              "correct": false
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "question": "What does Azadi Ka Amrit Mahotsav signify?",
+          "options": [
+            {
+              "id": 1,
+              "text": "Freedom Fighters and their journey",
+              "correct": false
+            },
+            {
+              "id": 2,
+              "text": "75 years of Freedom",
+              "correct": true
+            },
+            {
+              "id": 3,
+              "text": "70 years of Freedom",
+              "correct": false
+            },
+            {
+              "id": 4,
+              "text": "Freedom struggle and stories",
+              "correct": false
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "question": "When was the Natal Indian Congress formed?",
+          "options": [
+            {
+              "id": 1,
+              "text": "21 August 1894",
+              "correct": false
+            },
+            {
+              "id": 2,
+              "text": "22 August 1894",
+              "correct": true
+            },
+            {
+              "id": 3,
+              "text": "30 August 1894",
+              "correct": false
+            },
+            {
+              "id": 4,
+              "text": "22 August 1895",
+              "correct": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "language": "हिंदी",
+      "language_name": "भाषा",
+      "title": "चार्ल्स फ्रीअर एंड्रयूज़",
+      "instructions": "चार्ल्स फ्रीअर एंड्रयूज़",
+      "mintwo": "चार्ल्स फ्रीअर एंड्रयूज़चार्ल्स फ्रीअर एंड्रयूज़चार्ल्स फ्रीअर एंड्रयूज़चार्ल्स फ्रीअर एंड्रयूज़",
+      "point1": "चार्ल्स फ्रीअर एंड्रयूज़चार्ल्स फ्रीअर एंड्रयूज़चार्ल्स फ्रीअर एंड्रयूज़चार्ल्स फ्रीअर एंड्रयूज़",
+      "point2": "चार्ल्स फ्रीअर एंड्रयूज़चार्ल्स फ्रीअर एंड्रयूज़चार्ल्स फ्रीअर एंड्रयूज़चार्ल्स फ्रीअर एंड्रयूज़",
+      "point3": "चार्ल्स फ्रीअर एंड्रयूज़चार्ल्स फ्रीअर एंड्रयूज़चार्ल्स फ्रीअर एंड्रयूज़चार्ल्स फ्रीअर एंड्रयूज़",
+      "point4": "चार्ल्स फ्रीअर एंड्रयूज़चार्ल्स फ्रीअर एंड्रयूज़चार्ल्स फ्रीअर एंड्रयूज़",
+      "rules": "चार्ल्स फ्रीअर एंड्रयूज़",
+      "rule1": "चार्ल्स फ्रीअर एंड्रयूज़चार्ल्स फ्रीअर एंड्रयूज़चार्ल्स फ्रीअर एंड्रयूज़",
+      "rule2": "चार्ल्स फ्रीअर एंड्रयूज़चार्ल्स फ्रीअर एंड्रयूज़चार्ल्स फ्रीअर एंड्रयूज़चार्ल्स फ्रीअर एंड्रयूज़",
+      "rule3": "चार्ल्स फ्रीअर एंड्रयूज़चार्ल्स फ्रीअर एंड्रयूज़चार्ल्स फ्रीअर एंड्रयूज़चार्ल्स फ्रीअर एंड्रयूज़चार्ल्स फ्रीअर एंड्रयूज़",
+      "next": "चार्ल्स फ्रीअर एंड्रयूज़",
+      "restat_game": "चार्ल्स फ्रीअर एंड्रयूज़",
+      "start": "चार्ल्स फ्रीअर एंड्रयूज़",
+      "player_joined": "चार्ल्स फ्रीअर एंड्रयूज़",
+      "waiting": "चार्ल्स फ्रीअर एंड्रयूज़",
+      "for_players": "चार्ल्स फ्रीअर एंड्रयूज़",
+      "questions": [
+        {
+          "id": 1,
+          "question": "गाँधीजी द्वारा दक्षिण अफ़्रीका में स्थापित आश्रम का नाम बताएँ।",
+          "options": [
+            {
+              "id": 1,
+              "text": "जुगतराम दवे आश्रम",
+              "correct": false
+            },
+            {
+              "id": 2,
+              "text": "मगनवाड़ी आश्रम",
+              "correct": false
+            },
+            {
+              "id": 3,
+              "text": "फीनिक्स आश्रम",
+              "correct": true
+            },
+            {
+              "id": 4,
+              "text": "साबरमती आश्रम",
+              "correct": false
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "question": "आज़ादी का अमृत महोत्सव क्या दर्शाता है?",
+          "options": [
+            {
+              "id": 1,
+              "text": "स्वतंत्रता सेनानी और उनकी यात्रा",
+              "correct": false
+            },
+            {
+              "id": 2,
+              "text": "आज़ादी के 75 वर्ष",
+              "correct": true
+            },
+            {
+              "id": 3,
+              "text": "आज़ादी के 70 वर्ष",
+              "correct": false
+            },
+            {
+              "id": 4,
+              "text": "स्वतंत्रता संग्राम और कहानियाँ",
+              "correct": false
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "question": "नेटाल इंडियन कांग्रेस की स्थापना कब हुई थी?",
+          "options": [
+            {
+              "id": 1,
+              "text": "21 अगस्त 1894",
+              "correct": false
+            },
+            {
+              "id": 2,
+              "text": "22 अगस्त 1894",
+              "correct": true
+            },
+            {
+              "id": 3,
+              "text": "30 अगस्त 1894",
+              "correct": false
+            },
+            {
+              "id": 4,
+              "text": "22 अगस्त 1895",
+              "correct": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

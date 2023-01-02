@@ -3,23 +3,27 @@ import "./HostOption.css";
 
 const getOptionLetter = (optionNumber) => {
   switch (optionNumber) {
-    case 1:
+    case 0:
       return "A";
-    case 2:
+    case 1:
       return "B";
-    case 3:
+    case 2:
       return "C";
-    case 4:
+    case 3:
       return "D";
     default:
       return "";
   }
 };
 
-function HostOption({ optionNumber, optionText }) {
+function HostOption({ optionNumber, optionText, selected }) {
   return (
-    <button className="host-option-btn">
-      <div className="host-option-btn-text">
+    <button className={selected ? "host-option-btn-right" : "host-option-btn"}>
+      <div
+        className={
+          selected ? "host-option-btn-text-right" : "host-option-btn-text"
+        }
+      >
         {getOptionLetter(optionNumber)} : {optionText}
       </div>
     </button>

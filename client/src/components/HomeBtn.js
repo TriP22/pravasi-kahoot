@@ -3,9 +3,9 @@ import "./HomeBtn.css";
 
 import HomeIcon from "../assets/home_icon.png";
 
-function HomeBtn({ iconSize = 24 }) {
+function HomeBtn({ iconSize = 24, onClick }) {
   return (
-    <button className="lang-btn">
+    <button className="lang-btn" onClick={onClick}>
       <img alt="Language" height={iconSize} src={HomeIcon} />
     </button>
   );

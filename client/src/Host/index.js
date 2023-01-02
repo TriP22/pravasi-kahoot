@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { QRCode } from "react-qrcode-logo";
 import "./index.css";
@@ -10,6 +10,9 @@ import HomeBtn from "../components/HomeBtn";
 import LanguageBtn from "../components/LanguageBtn";
 import RestartGameBtn from "../components/RestartGameBtn";
 import HostOption from "../components/HostOption";
+
+import { SocketContext } from "../context/socket";
+import Data from "../assets/data.json";
 
 const Players = [
   {
@@ -125,240 +128,97 @@ const Players = [
 ];
 
 function Host() {
+  const socket = useContext(SocketContext);
+
+  const [players, setPlayers] = useState([]);
+  const [gameStatus, setGameStatus] = useState("splash");
+  const [language, setLanguage] = useState(0);
+  const [timer, setTimer] = useState(30);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+
+  useEffect(() => {
+    if (localStorage.getItem("language") !== null) {
+      setLanguage(localStorage.getItem("language"));
+    }
+
+    socket.emit("HOST_JOIN");
+
+    // If host already exists
+    socket.on("HOST_FORCED_DISCONNECT", (data) => {
+      if (socket.id === data) {
+        window.location.href = "/";
+      }
+    });
+
+    // To update game status
+    socket.on("GAME_STATUS", (data) => {
+      setGameStatus(data?.gameStatus);
+    });
+
+    return () => {
+      socket.off("HOST_FORCED_DISCONNECT");
+      socket.off("GAME_STATUS");
+    };
+  }, [socket]);
+
+  useEffect(() => {
+    if (timer > 0) {
+      let timer1 = setTimeout(() => setTimer(timer - 1), 1000);
+
+      return () => {
+        clearTimeout(timer1);
+      };
+    }
+  }, [timer]);
+
+  const handleLanguageChange = () => {
+    if (language === 0) {
+      setLanguage(1);
+      localStorage.setItem("language", 1);
+    } else {
+      setLanguage(0);
+      localStorage.setItem("language", 0);
+    }
+  };
+
+  const handleSplashToRegister = () => {
+    socket.emit("HOST_GAME_STATUS", { gameStatus: "register" });
+    setGameStatus("register");
+  };
+
+  const handleRegisterToLobby = () => {
+    socket.emit("HOST_GAME_STATUS", { gameStatus: "lobby" });
+    setGameStatus("lobby");
+  };
+
+  const handleLobbyToGame = () => {
+    socket.emit("HOST_GAME_STATUS", { gameStatus: "game" });
+    setGameStatus("game");
+    setTimer(30);
+  };
+  const handleGameToResult = () => {
+    socket.emit("HOST_GAME_STATUS", { gameStatus: "result" });
+    setGameStatus("result");
+  };
+
+  const handleRestartGame = () => {
+    socket.emit("HOST_GAME_STATUS", { gameStatus: "splash" });
+    setGameStatus("splash");
+    setCurrentQuestion(0);
+    setTimer(30);
+  };
+
+  const handleNextQuestion = () => {
+    if (Data.languages[language].questions.length > currentQuestion + 1) {
+      setCurrentQuestion(currentQuestion + 1);
+      setTimer(30);
+    } else {
+      handleGameToResult();
+    }
+  };
+
   return (
     <>
-      {/* SPLASH */}
-      {/* <div
-        style={{
-          backgroundImage: `url(${SplashBg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          minHeight: "100vh",
-          overflow: "hidden",
-        }}
-      >
-        <div className="host-splash-center">
-          <div className="host-splash-heading">Pravasi Bhartiya Diwas Quiz</div>
-        </div>
-        <div className="host-splash-bottom-nav">
-          <div className="host-splash-select-english">Select language</div>
-          <div className="host-splash-select-hindi">भाषा का चयन करें</div>
-          <LanguageBtn iconSize={40} />
-        </div>
-      </div> */}
-
-      {/* SPLASH */}
-      {/* <div
-        style={{
-          backgroundImage: `url(${RegisterBg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          minHeight: "100vh",
-          overflow: "hidden",
-        }}
-      >
-        <div className="host-register-center">
-          <div className="host-register-heading">Instructions</div>
-          <div className="host-register-subheading">
-            ( Minimum two players are required to play the game )
-          </div>
-          <div className="host-register-intro-content">
-            1. Pick a device among the five devices in front of you. <br />
-            2. Enter your name in one of the device and start the game <br />
-            3. To play with your own device connect it to the lorem Wi-Fi <br />
-            4. Then scan the QR Code below to play the game
-          </div>
-          <div
-            style={{
-              padding: 48,
-            }}
-          >
-            <QRCode
-              value={window.location.origin}
-              bgColor="#ffffff00"
-              fgColor="#ffffff"
-            />
-          </div>
-
-          <div className="host-register-heading">Rules</div>
-          <div className="host-register-intro-content">
-            1. Each Question only has one correct answer <br />
-            2. Each Person will have 30 seconds to answer the question <br />
-            3. The first person to give the right answer will get more points
-            <br />
-          </div>
-        </div>
-        <div className="host-bottom-nav">
-          <div
-            style={{
-              paddingLeft: 64,
-              paddingBottom: 32,
-            }}
-          >
-            <RestartGameBtn iconSize={40} />
-          </div>
-          <div
-            style={{
-              paddingRight: 64,
-              paddingBottom: 32,
-              display: "flex",
-            }}
-          >
-            <div
-              style={{
-                paddingRight: 16,
-              }}
-            >
-              <HomeBtn iconSize={40} />
-            </div>
-            <LanguageBtn iconSize={40} />
-          </div>
-        </div>
-      </div> */}
-
-      {/* LOBBY */}
-      {/* <div
-        style={{
-          backgroundImage: `url(${RegisterBg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          minHeight: "100vh",
-          overflow: "hidden",
-        }}
-      >
-        <div className="host-register-center">
-          <div className="host-lobby-heading">Players joined so far</div>
-        </div>
-        <div className="host-lobby-center-names">
-          {Players.length > 0 ? (
-            <div className="host-lobby-name-chip-wrap">
-              {Players.map((item, index) => (
-                <div className="host-lobby-name-chip" key={index}>
-                  {item.name}
-                </div>
-              ))}
-            </div>
-          ) : (
-            <>
-              <img src={Loader} alt="loading..." height={150} />
-              <div className="host-lobby-waiting-heading">Waiting...</div>
-              <div className="host-lobby-subheading">for players to join</div>
-            </>
-          )}
-        </div>
-        <button className="host-lobby-start-btn">Start</button>
-        <div className="host-bottom-nav">
-          <div
-            style={{
-              paddingLeft: 64,
-              paddingBottom: 32,
-            }}
-          >
-            <RestartGameBtn iconSize={40} />
-          </div>
-          <div
-            style={{
-              paddingRight: 64,
-              paddingBottom: 32,
-              display: "flex",
-            }}
-          >
-            <div
-              style={{
-                paddingRight: 16,
-              }}
-            >
-              <HomeBtn iconSize={40} />
-            </div>
-            <LanguageBtn iconSize={40} />
-          </div>
-        </div>
-      </div> */}
-
-      {/* GAME */}
-      {/* <div
-        style={{
-          backgroundImage: `url(${RegisterBg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          minHeight: "100vh",
-          overflow: "hidden",
-        }}
-      >
-        <div className="host-game-question">
-          When was the Pravasi Bhartiya Diwas held for the first time? When was
-          the Pravasiya Diwas held for the first time? When was Pravasi Bhartiya
-          Diwas held for the first time?
-        </div>
-        <div className="host-game-center">
-          <div className="host-game-options">
-            <div className="host-game-options-col-1">
-              <div className="host-game-option-div">
-                <HostOption optionNumber={1} optionText={"2021"} />
-              </div>
-              <div className="host-game-option-div">
-                <HostOption optionNumber={3} optionText={"1947"} />
-              </div>
-            </div>
-            <div className="host-game-options-col-2">
-              <div className="host-game-timer-div">
-                <div className="host-game-timer-text">30</div>
-              </div>
-            </div>
-            <div className="host-game-options-col-1">
-              <div className="host-game-option-div">
-                <HostOption optionNumber={2} optionText={"1800"} />
-              </div>
-              <div className="host-game-option-div">
-                <HostOption optionNumber={4} optionText={"2022"} />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="host-game-numbers">
-          {[2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 5, 5].map((item, index) => (
-            <div
-              className={
-                index === 2 ? "host-game-number-selected" : "host-game-number"
-              }
-              key={index}
-            >
-              {index + 1}
-            </div>
-          ))}
-        </div>
-
-        <button className="host-lobby-start-btn">Next</button>
-
-        <div className="host-bottom-nav">
-          <div
-            style={{
-              paddingLeft: 64,
-              paddingBottom: 32,
-            }}
-          >
-            <RestartGameBtn iconSize={40} />
-          </div>
-          <div
-            style={{
-              paddingRight: 64,
-              paddingBottom: 32,
-              display: "flex",
-            }}
-          >
-            <div
-              style={{
-                paddingRight: 16,
-              }}
-            >
-              <HomeBtn iconSize={40} />
-            </div>
-            <LanguageBtn iconSize={40} />
-          </div>
-        </div>
-      </div> */}
-
-      {/* RESULT */}
       <div
         style={{
           backgroundImage: `url(${RegisterBg})`,
@@ -368,8 +228,269 @@ function Host() {
           overflow: "hidden",
         }}
       >
-        <div className="host-result-heading">Pravasi Bhartiya Diwas Quiz</div>
-        <div className="host-result-subheading">Leaderboard</div>
+        {/* SPLASH */}
+        <div
+          style={{
+            backgroundImage: `url(${SplashBg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            minHeight: "100vh",
+            overflow: "hidden",
+            position: "absolute",
+            top: gameStatus === "splash" ? 0 : -1080,
+            bottom: gameStatus === "splash" ? 0 : 1080,
+            left: 0,
+            right: 0,
+            zIndex: 100,
+            transition: "all 0.3s ",
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              zIndex: 300,
+              bottom: 32,
+              left: "50%",
+              transform: "translateX(-50%)",
+            }}
+          >
+            <LanguageBtn iconSize={40} onClick={handleLanguageChange} />
+          </div>
+          <div
+            style={{
+              minHeight: "100vh",
+              overflow: "hidden",
+              position: "absolute",
+              top: gameStatus === "splash" ? 0 : -1080,
+              bottom: gameStatus === "splash" ? 0 : 1080,
+              left: 0,
+              right: 0,
+              zIndex: 200,
+              transition: "all 0.3s ",
+            }}
+            onClick={handleSplashToRegister}
+          ></div>
+          <div style={{ backgroundColor: "fff" }} />
+          <div className="host-splash-center">
+            <div className="host-splash-heading">
+              {Data.languages[language].title}
+            </div>
+          </div>
+          <div className="host-splash-bottom-nav">
+            <div className="host-splash-select-english">Select language</div>
+            <div className="host-splash-select-hindi">भाषा का चयन करें</div>
+          </div>
+        </div>
+
+        {/* REGISTER */}
+        {gameStatus === "register" && (
+          <>
+            <div className="host-register-center">
+              <div className="host-register-heading">
+                {Data.languages[language].instructions}
+              </div>
+              <div className="host-register-subheading">
+                {Data.languages[language].mintwo}
+              </div>
+              <div className="host-register-intro-content">
+                1. {Data.languages[language].point1}
+                <br /> 2. {Data.languages[language].point2}
+                <br />
+                3. {Data.languages[language].point3}
+                <br />
+                4. {Data.languages[language].point4}
+              </div>
+              <div
+                style={{
+                  padding: 48,
+                }}
+              >
+                <QRCode
+                  value={window.location.origin}
+                  bgColor="#ffffff00"
+                  fgColor="#ffffff"
+                />
+              </div>
+
+              <div className="host-register-heading">
+                {Data.languages[language].rules}
+              </div>
+              <div className="host-register-intro-content">
+                1. {Data.languages[language].rule1} <br />
+                2. {Data.languages[language].rule2}
+                <br />
+                3. {Data.languages[language].rule3}
+                <br />
+              </div>
+            </div>
+
+            <button
+              className="host-register-next-btn"
+              onClick={handleRegisterToLobby}
+            >
+              {Data.languages[language].next}
+            </button>
+          </>
+        )}
+
+        {/* LOBBY */}
+        {gameStatus === "lobby" && (
+          <>
+            <div className="host-register-center">
+              <div className="host-lobby-heading">
+                {Data.languages[language].player_joined}
+              </div>
+            </div>
+            <div className="host-lobby-center-names">
+              {Players.length > 0 ? (
+                <div className="host-lobby-name-chip-wrap">
+                  {Players.map((item, index) => (
+                    <div className="host-lobby-name-chip" key={index}>
+                      {item.name}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <>
+                  <img src={Loader} alt="loading..." height={150} />
+                  <div className="host-lobby-waiting-heading">
+                    {Data.languages[language].waiting}
+                  </div>
+                  <div className="host-lobby-subheading">
+                    {Data.languages[language].for_players}
+                  </div>
+                </>
+              )}
+            </div>
+            <button
+              className="host-lobby-start-btn"
+              onClick={handleLobbyToGame}
+            >
+              {Data.languages[language].start}
+            </button>
+          </>
+        )}
+
+        {/* GAME */}
+        {gameStatus === "game" && (
+          <>
+            <div className="host-game-question">
+              {Data.languages[language].questions[currentQuestion].question}
+            </div>
+            <div className="host-game-center">
+              <div className="host-game-options">
+                <div className="host-game-options-col-1">
+                  <div className="host-game-option-div">
+                    <HostOption
+                      optionNumber={0}
+                      optionText={
+                        Data.languages[language].questions[currentQuestion]
+                          .options[0].text
+                      }
+                      selected={
+                        timer === 0 &&
+                        Data.languages[language].questions[currentQuestion]
+                          .options[0].correct
+                          ? true
+                          : false
+                      }
+                    />
+                  </div>
+                  <div className="host-game-option-div">
+                    <HostOption
+                      optionNumber={2}
+                      optionText={
+                        Data.languages[language].questions[currentQuestion]
+                          .options[2].text
+                      }
+                      selected={
+                        timer === 0 &&
+                        Data.languages[language].questions[currentQuestion]
+                          .options[2].correct
+                          ? true
+                          : false
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="host-game-options-col-2">
+                  <div className="host-game-timer-div">
+                    <div className="host-game-timer-text">
+                      {timer > 9 ? timer : `0${timer}`}
+                    </div>
+                  </div>
+                </div>
+                <div className="host-game-options-col-1">
+                  <div className="host-game-option-div">
+                    <HostOption
+                      optionNumber={1}
+                      optionText={
+                        Data.languages[language].questions[currentQuestion]
+                          .options[1].text
+                      }
+                      selected={
+                        timer === 0 &&
+                        Data.languages[language].questions[currentQuestion]
+                          .options[1].correct
+                          ? true
+                          : false
+                      }
+                    />
+                  </div>
+                  <div className="host-game-option-div">
+                    <HostOption
+                      optionNumber={3}
+                      optionText={
+                        Data.languages[language].questions[currentQuestion]
+                          .options[3].text
+                      }
+                      selected={
+                        timer === 0 &&
+                        Data.languages[language].questions[currentQuestion]
+                          .options[3].correct
+                          ? true
+                          : false
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="host-game-numbers">
+              {Data.languages[language].questions.map((item, index) => (
+                <div
+                  className={
+                    index === currentQuestion
+                      ? "host-game-number-selected"
+                      : "host-game-number"
+                  }
+                  key={index}
+                >
+                  {index + 1}
+                </div>
+              ))}
+            </div>
+
+            {timer === 0 && (
+              <button
+                className="host-lobby-start-btn"
+                onClick={handleNextQuestion}
+              >
+                {Data.languages[language].next}
+              </button>
+            )}
+          </>
+        )}
+
+        {/* RESULT */}
+        {gameStatus === "result" && (
+          <>
+            <div className="host-result-heading">
+              Pravasi Bhartiya Diwas Quiz
+            </div>
+            <div className="host-result-subheading">Leaderboard</div>
+          </>
+        )}
         <div className="host-bottom-nav">
           <div
             style={{
@@ -377,7 +498,11 @@ function Host() {
               paddingBottom: 32,
             }}
           >
-            <RestartGameBtn iconSize={40} />
+            <RestartGameBtn
+              iconSize={40}
+              onClick={handleRestartGame}
+              text={Data.languages[language].restat_game}
+            />
           </div>
           <div
             style={{
@@ -391,9 +516,9 @@ function Host() {
                 paddingRight: 16,
               }}
             >
-              <HomeBtn iconSize={40} />
+              <HomeBtn iconSize={40} onClick={handleRestartGame} />
             </div>
-            <LanguageBtn iconSize={40} />
+            <LanguageBtn iconSize={40} onClick={handleLanguageChange} />
           </div>
         </div>
       </div>

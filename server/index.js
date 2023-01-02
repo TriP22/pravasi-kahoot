@@ -15,16 +15,37 @@ const io = new Server(server, {
   },
 });
 
+var hostId = null;
+
 io.on("connection", (socket) => {
   console.log(`User connected: ${socket.id}`);
 
-  socket.on("send_message", (data) => {
-    console.log(data);
-    socket.broadcast.emit("receive_message", data);
+  // FROM HOST
+  socket.on("HOST_JOIN", () => {
+    if (hostId === null || hostId === socket.id) {
+      hostId = socket.id;
+    } else {
+      socket.emit("HOST_FORCED_DISCONNECT", socket.id);
+    }
+  });
+
+  socket.on("HOST_GAME_STATUS", (data) => {
+    socket.broadcast.emit("GAME_STATUS", data);
+  });
+
+  // FROM PLAYER
+  socket.on("PLAYER_JOIN", () => {
+    hostId === null
+      ? socket.emit("HOST_NONE")
+      : console.log("Player joined ", socket.id);
   });
 
   socket.on("disconnect", function () {
     console.log(`User disconnected: ${socket.id}`);
+
+    if (socket.id === hostId) {
+      hostId = null;
+    }
   });
 });
 
