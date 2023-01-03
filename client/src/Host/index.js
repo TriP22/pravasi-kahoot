@@ -160,10 +160,15 @@ function Host() {
       setPlayers(data?.players);
     });
 
+    socket.on("SORTED_SCORE", (data) => {
+      console.log(data);
+    });
+
     return () => {
       socket.off("HOST_FORCED_DISCONNECT");
       socket.off("GAME_STATUS");
       socket.off("PLAYER_LIST");
+      socket.off("SORTED_SCORE");
     };
   }, [socket]);
 

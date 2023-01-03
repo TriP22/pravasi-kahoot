@@ -33,6 +33,7 @@
       "register_yourself": "Register Yourself",
       "nickname": "Nickname",
       "for_host": "for host to start game",
+      "your_result": "Your Result",
       "questions": [
         {
           "id": 1,

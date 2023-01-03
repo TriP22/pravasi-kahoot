@@ -55,16 +55,22 @@ function Player() {
       setOptionSelected(null);
     });
 
+    socket.on("SORTED_SCORE", (data) => {
+      console.log(data);
+    });
+
     return () => {
       socket.off("HOST_NONE");
       socket.off("GAME_STATUS");
       socket.off("CURRENT_QUESTION");
+      socket.off("SORTED_SCORE");
     };
   }, [socket]);
 
   useEffect(() => {
     if (gameStatus === "splash") {
       setNickName("");
+      setOptionSelected(false);
     }
   }, [gameStatus]);
 
@@ -420,22 +426,29 @@ function Player() {
         {gameStatus === "result" && (
           <>
             <div className="result-center">
-              <div className="result-result-text">Your Result</div>
+              <div className="result-result-text">
+                {Data.languages[language].your_result}
+              </div>
               <div className="result-congrats-text">CONGRATULATIONS!</div>
               <div className="result-heading">YOU WON</div>
               <div className="result-rank">
-                <div className="result-rank-text">111</div>
+                <div className="result-rank-text">1</div>
               </div>
               <button className="result-restart-btn">
-                <div className="result-restart-btn-text">Restart Game</div>
+                <div
+                  className="result-restart-btn-text"
+                  onClick={handleRestartGame}
+                >
+                  {Data.languages[language].restat_game}
+                </div>
               </button>
             </div>
             <div className="player-nav">
               <div className="player-home-btn">
-                <HomeBtn />
+                <HomeBtn onClick={handleRestartGame} />
               </div>
               <div className="player-lg-btn">
-                <LanguageBtn />
+                <LanguageBtn onClick={handleLanguageChange} />
               </div>
             </div>
           </>

@@ -49,6 +49,10 @@ io.on("connection", (socket) => {
         break;
       case "result":
         socket.broadcast.emit("GAME_STATUS", data);
+        socket.broadcast.emit(
+          "SORTED_SCORE"
+          // players?.sort((a, b) => a.score - b.score)
+        );
         break;
       default:
     }
