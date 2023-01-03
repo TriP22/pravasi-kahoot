@@ -155,9 +155,15 @@ function Host() {
       setGameStatus(data?.gameStatus);
     });
 
+    // To update player list
+    socket.on("PLAYER_LIST", (data) => {
+      setPlayers(data?.players);
+    });
+
     return () => {
       socket.off("HOST_FORCED_DISCONNECT");
       socket.off("GAME_STATUS");
+      socket.off("PLAYER_LIST");
     };
   }, [socket]);
 
@@ -203,6 +209,7 @@ function Host() {
 
   const handleRestartGame = () => {
     socket.emit("HOST_GAME_STATUS", { gameStatus: "splash" });
+    socket.emit("HOST_RESTART");
     setGameStatus("splash");
     setCurrentQuestion(0);
     setTimer(30);
@@ -212,6 +219,9 @@ function Host() {
     if (Data.languages[language].questions.length > currentQuestion + 1) {
       setCurrentQuestion(currentQuestion + 1);
       setTimer(30);
+      socket.emit("HOST_CURRENT_QUESTION", {
+        currentQuestion: currentQuestion + 1,
+      });
     } else {
       handleGameToResult();
     }
@@ -342,16 +352,16 @@ function Host() {
               </div>
             </div>
             <div className="host-lobby-center-names">
-              {Players.length > 0 ? (
+              {players.length > 0 ? (
                 <div className="host-lobby-name-chip-wrap">
-                  {Players.map((item, index) => (
+                  {players.map((item, index) => (
                     <div className="host-lobby-name-chip" key={index}>
                       {item.name}
                     </div>
                   ))}
                 </div>
               ) : (
-                <>
+                <div style={{ paddingTop: 200 }}>
                   <img src={Loader} alt="loading..." height={150} />
                   <div className="host-lobby-waiting-heading">
                     {Data.languages[language].waiting}
@@ -359,15 +369,17 @@ function Host() {
                   <div className="host-lobby-subheading">
                     {Data.languages[language].for_players}
                   </div>
-                </>
+                </div>
               )}
             </div>
-            <button
-              className="host-lobby-start-btn"
-              onClick={handleLobbyToGame}
-            >
-              {Data.languages[language].start}
-            </button>
+            {players.length > 1 && (
+              <button
+                className="host-lobby-start-btn"
+                onClick={handleLobbyToGame}
+              >
+                {Data.languages[language].start}
+              </button>
+            )}
           </>
         )}
 

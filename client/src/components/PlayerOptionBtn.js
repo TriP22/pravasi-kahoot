@@ -3,22 +3,22 @@ import "./PlayerOptionBtn.css";
 
 const getOptionLetter = (optionNumber) => {
   switch (optionNumber) {
-    case 1:
+    case 0:
       return "A";
-    case 2:
+    case 1:
       return "B";
-    case 3:
+    case 2:
       return "C";
-    case 4:
+    case 3:
       return "D";
     default:
       return "";
   }
 };
 
-function PlayerOptionBtn({ iconSize = 24, optionNumber }) {
+function PlayerOptionBtn({ optionNumber, onClick }) {
   return (
-    <button className="player-option-btn">
+    <button className="player-option-btn" onClick={onClick}>
       <div className="player-option-btn-text">
         {getOptionLetter(optionNumber)}
       </div>
@@ -27,3 +27,33 @@ function PlayerOptionBtn({ iconSize = 24, optionNumber }) {
 }
 
 export default PlayerOptionBtn;
+
+function PlayerOptionSelectedBtn({ optionNumber }) {
+  return (
+    <button className="player-option-selected-btn">
+      <div className="player-option-selected-btn-text">
+        {getOptionLetter(optionNumber)}
+      </div>
+    </button>
+  );
+}
+function PlayerOptionRightBtn({ optionNumber }) {
+  return (
+    <button className="player-option-right-btn">
+      <div className="player-option-right-btn-text">
+        {getOptionLetter(optionNumber)}
+      </div>
+    </button>
+  );
+}
+function PlayerOptionWrongBtn({ optionNumber }) {
+  return (
+    <button className="player-option-wrong-btn">
+      <div className="player-option-wrong-btn-text">
+        {getOptionLetter(optionNumber)}
+      </div>
+    </button>
+  );
+}
+
+export { PlayerOptionSelectedBtn, PlayerOptionRightBtn, PlayerOptionWrongBtn };

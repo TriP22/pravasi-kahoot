@@ -1,6 +1,6 @@
 .player-nav {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -199,6 +199,8 @@
   background: radial-gradient(50% 50% at 50% 50%, #66421c 0%, #201307 100%);
   border: 1.31769px solid #ffecbc;
   border-radius: 500px;
+  height: 64px;
+  width: 64px;
 }
 .game-timer-text {
   font-family: "Montserrat";

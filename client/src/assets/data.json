@@ -30,6 +30,9 @@
       "player_joined": "Players joined so far",
       "waiting": "Waiting...",
       "for_players": "for players to join",
+      "register_yourself": "Register Yourself",
+      "nickname": "Nickname",
+      "for_host": "for host to start game",
       "questions": [
         {
           "id": 1,

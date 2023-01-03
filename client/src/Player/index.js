@@ -6,7 +6,11 @@ import BackgroundImage from "../assets/register_bg.png";
 import Loader from "../assets/loader.svg";
 import LanguageBtn from "../components/LanguageBtn";
 import HomeBtn from "../components/HomeBtn";
-import PlayerOptionBtn from "../components/PlayerOptionBtn";
+import PlayerOptionBtn, {
+  PlayerOptionRightBtn,
+  PlayerOptionSelectedBtn,
+  PlayerOptionWrongBtn,
+} from "../components/PlayerOptionBtn";
 
 import { SocketContext } from "../context/socket";
 import Data from "../assets/data.json";
@@ -17,6 +21,9 @@ function Player() {
   const [nickName, setNickName] = useState("");
   const [gameStatus, setGameStatus] = useState("splash");
   const [language, setLanguage] = useState(0);
+  const [timer, setTimer] = useState(30);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [optionSelected, setOptionSelected] = useState(false);
 
   const handleNameChange = (event) => {
     setNickName(event.target.value);
@@ -24,25 +31,34 @@ function Player() {
 
   useEffect(() => {
     if (localStorage.getItem("language") !== null) {
-      console.log(`language exists`);
       setLanguage(localStorage.getItem("language"));
-    } else {
-      console.log(`language not found`);
     }
+
     socket.emit("PLAYER_JOIN");
 
     socket.on("HOST_NONE", () => {
-      // console.log("host ko shuru karne de bhai");
       alert("No host found to start the Quiz");
     });
 
     socket.on("GAME_STATUS", (data) => {
       setGameStatus(data?.gameStatus);
+
+      if (data?.gameStatus === "game") {
+        setTimer(30);
+        setCurrentQuestion(0);
+      }
+    });
+
+    socket.on("CURRENT_QUESTION", (data) => {
+      setCurrentQuestion(data.currentQuestion);
+      setTimer(30);
+      setOptionSelected(null);
     });
 
     return () => {
       socket.off("HOST_NONE");
       socket.off("GAME_STATUS");
+      socket.off("CURRENT_QUESTION");
     };
   }, [socket]);
 
@@ -50,7 +66,17 @@ function Player() {
     if (gameStatus === "splash") {
       setNickName("");
     }
-  }, [nickName]);
+  }, [gameStatus]);
+
+  useEffect(() => {
+    if (timer > 0) {
+      let timer1 = setTimeout(() => setTimer(timer - 1), 1000);
+
+      return () => {
+        clearTimeout(timer1);
+      };
+    }
+  }, [timer]);
 
   const handleLanguageChange = () => {
     if (language === 0) {
@@ -62,23 +88,43 @@ function Player() {
     }
   };
 
+  // function openFullscreen() {
+  //   var elem = document.getElementById("fullScreen");
+  //   if (elem.requestFullscreen) {
+  //     elem.requestFullscreen();
+  //   } else if (elem.webkitRequestFullscreen) {
+  //     /* Safari */
+  //     elem.webkitRequestFullscreen();
+  //   } else if (elem.msRequestFullscreen) {
+  //     /* IE11 */
+  //     elem.msRequestFullscreen();
+  //   }
+  // }
+
   const handleSplashToRegister = () => {
     setGameStatus("register");
-  };
-
-  const handleRegisterToLobby = () => {
-    socket.emit("HOST_GAME_STATUS", { gameStatus: "lobby" });
-    setGameStatus("lobby");
-  };
-
-  const handleLobbyToGame = () => {
-    socket.emit("HOST_GAME_STATUS", { gameStatus: "game" });
-    setGameStatus("game");
+    // openFullscreen();
   };
 
   const handleRestartGame = () => {
-    socket.emit("HOST_GAME_STATUS", { gameStatus: "splash" });
     setGameStatus("splash");
+    setCurrentQuestion(0);
+    setTimer(30);
+    socket.emit("PLAYER_RESTART");
+  };
+
+  const handleRegisterPlayer = () => {
+    setGameStatus("lobby");
+    socket.emit("PLAYER_REGISTER", { nickName });
+  };
+
+  const handlePlayerAnswer = (num, data) => {
+    if (data && timer > 0) {
+      socket.emit("PLAYER_ANSWER", { timer });
+    }
+    if (timer > 0) {
+      setOptionSelected(num);
+    }
   };
 
   return (
@@ -91,6 +137,7 @@ function Player() {
           minHeight: "100vh",
           overflow: "hidden",
         }}
+        id="fullScreen"
       >
         {/* SPLASH */}
         <div
@@ -108,19 +155,40 @@ function Player() {
             zIndex: 100,
             transition: "all 0.3s ",
           }}
-          onClick={() => {
-            setGameStatus("register");
-          }}
         >
+          {gameStatus === "splash" && (
+            <div
+              style={{
+                position: "fixed",
+                zIndex: 300,
+                bottom: 100,
+                left: "50%",
+                transform: "translateX(-50%)",
+              }}
+            >
+              <LanguageBtn onClick={handleLanguageChange} />
+            </div>
+          )}
+          <div
+            style={{
+              minHeight: "100vh",
+              overflow: "hidden",
+              position: "absolute",
+              top: gameStatus === "splash" ? 0 : "-100vh",
+              bottom: gameStatus === "splash" ? 0 : "100vh",
+              left: 0,
+              right: 0,
+              zIndex: 200,
+              transition: "all 0.3s ",
+            }}
+            onClick={handleSplashToRegister}
+          ></div>
           <div className="splash-center">
             <div className="splash-heading">
               {Data.languages[language].title}
             </div>
             <div className="splash-select-english">Select language</div>
             <div className="splash-select-hindi">भाषा का चयन करें</div>
-            <div className="splash-lg-btn">
-              <LanguageBtn onClick={handleLanguageChange} />
-            </div>
           </div>
         </div>
 
@@ -128,12 +196,14 @@ function Player() {
         {gameStatus === "register" && (
           <>
             <div className="register-center">
-              <div className="register-heading">Register Yourself</div>
+              <div className="register-heading">
+                {Data.languages[language].register_yourself}
+              </div>
 
               <div style={{ padding: 16 }}>
                 <input
                   className="register-input"
-                  placeholder="Nickname"
+                  placeholder={Data.languages[language].nickname}
                   maxLength={10}
                   type="text"
                   id="first_name"
@@ -144,15 +214,20 @@ function Player() {
               </div>
 
               {nickName?.length > 2 && (
-                <button className="register-next-btn">Next</button>
+                <button
+                  className="register-next-btn"
+                  onClick={handleRegisterPlayer}
+                >
+                  {Data.languages[language].next}
+                </button>
               )}
             </div>
             <div className="player-nav">
               <div className="player-home-btn">
-                <HomeBtn />
+                <HomeBtn onClick={handleRestartGame} />
               </div>
               <div className="player-lg-btn">
-                <LanguageBtn />
+                <LanguageBtn onClick={handleLanguageChange} />
               </div>
             </div>
           </>
@@ -163,15 +238,19 @@ function Player() {
           <>
             <div className="lobby-center">
               <img src={Loader} alt="loading..." height={100} />
-              <div className="lobby-heading">Waiting...</div>
-              <div className="lobby-subheading">for players to join</div>
+              <div className="lobby-heading">
+                {Data.languages[language].waiting}
+              </div>
+              <div className="lobby-subheading">
+                {Data.languages[language].for_host}
+              </div>
             </div>
             <div className="player-nav">
               <div className="player-home-btn">
-                <HomeBtn />
+                <HomeBtn onClick={handleRestartGame} />
               </div>
               <div className="player-lg-btn">
-                <LanguageBtn />
+                <LanguageBtn onClick={handleLanguageChange} />
               </div>
             </div>
           </>
@@ -182,73 +261,156 @@ function Player() {
           <>
             <div className="game-center">
               <div className="game-question">
-                When was the Pravasi Bhartiya Diwas held for the first time?
+                {Data.languages[language].questions[currentQuestion].question}
               </div>
               <div className="game-options">
                 <div className="game-options-col-1">
                   <div className="game-option-div">
-                    <PlayerOptionBtn optionNumber={1} />
+                    {optionSelected === 0 ? (
+                      timer === 0 ? (
+                        Data.languages[language].questions[currentQuestion]
+                          .options[0].correct ? (
+                          <PlayerOptionRightBtn optionNumber={0} />
+                        ) : (
+                          <PlayerOptionWrongBtn optionNumber={0} />
+                        )
+                      ) : (
+                        <PlayerOptionSelectedBtn optionNumber={0} />
+                      )
+                    ) : (
+                      <PlayerOptionBtn
+                        optionNumber={0}
+                        onClick={() =>
+                          optionSelected
+                            ? null
+                            : handlePlayerAnswer(
+                                0,
+                                Data.languages[language].questions[
+                                  currentQuestion
+                                ].options[0].correct
+                              )
+                        }
+                      />
+                    )}
                   </div>
                   <div className="game-option-div">
-                    <PlayerOptionBtn optionNumber={3} />
+                    {optionSelected === 2 ? (
+                      timer === 0 ? (
+                        Data.languages[language].questions[currentQuestion]
+                          .options[2].correct ? (
+                          <PlayerOptionRightBtn optionNumber={2} />
+                        ) : (
+                          <PlayerOptionWrongBtn optionNumber={2} />
+                        )
+                      ) : (
+                        <PlayerOptionSelectedBtn optionNumber={2} />
+                      )
+                    ) : (
+                      <PlayerOptionBtn
+                        optionNumber={2}
+                        onClick={() =>
+                          optionSelected
+                            ? null
+                            : handlePlayerAnswer(
+                                2,
+                                Data.languages[language].questions[
+                                  currentQuestion
+                                ].options[2].correct
+                              )
+                        }
+                      />
+                    )}
                   </div>
                 </div>
                 <div className="game-options-col-2">
                   <div className="game-timer-div">
-                    <div className="game-timer-text">30</div>
+                    <div className="game-timer-text">
+                      {timer > 9 ? timer : `0${timer}`}
+                    </div>
                   </div>
                 </div>
                 <div className="game-options-col-1">
                   <div className="game-option-div">
-                    <PlayerOptionBtn optionNumber={2} />
+                    {optionSelected === 1 ? (
+                      timer === 0 ? (
+                        Data.languages[language].questions[currentQuestion]
+                          .options[1].correct ? (
+                          <PlayerOptionRightBtn optionNumber={1} />
+                        ) : (
+                          <PlayerOptionWrongBtn optionNumber={1} />
+                        )
+                      ) : (
+                        <PlayerOptionSelectedBtn optionNumber={1} />
+                      )
+                    ) : (
+                      <PlayerOptionBtn
+                        optionNumber={1}
+                        onClick={() =>
+                          optionSelected
+                            ? null
+                            : handlePlayerAnswer(
+                                1,
+                                Data.languages[language].questions[
+                                  currentQuestion
+                                ].options[1].correct
+                              )
+                        }
+                      />
+                    )}
                   </div>
                   <div className="game-option-div">
-                    <PlayerOptionBtn optionNumber={4} />
+                    {optionSelected === 3 ? (
+                      timer === 0 ? (
+                        Data.languages[language].questions[currentQuestion]
+                          .options[3].correct ? (
+                          <PlayerOptionRightBtn optionNumber={3} />
+                        ) : (
+                          <PlayerOptionWrongBtn optionNumber={3} />
+                        )
+                      ) : (
+                        <PlayerOptionSelectedBtn optionNumber={3} />
+                      )
+                    ) : (
+                      <PlayerOptionBtn
+                        optionNumber={3}
+                        onClick={() =>
+                          optionSelected
+                            ? null
+                            : handlePlayerAnswer(
+                                3,
+                                Data.languages[language].questions[
+                                  currentQuestion
+                                ].options[3].correct
+                              )
+                        }
+                      />
+                    )}
                   </div>
                 </div>
               </div>
 
               <div className="game-question-numbers">
-                {[{}, 1, 2, 3, 4, 5, 6, 7, 8, 9, 3, 4, 4, 4, 44].map(
-                  (item, index) => (
-                    <div
-                      key={index}
-                      className={
-                        index === 2
-                          ? "game-question-number-selected"
-                          : "game-question-number"
-                      }
-                    >
-                      <div className="game-question-number-text">
-                        {index + 1}
-                      </div>
-                    </div>
-                  )
-                )}
+                {Data.languages[language].questions.map((item, index) => (
+                  <div
+                    key={index}
+                    className={
+                      index === currentQuestion
+                        ? "game-question-number-selected"
+                        : "game-question-number"
+                    }
+                  >
+                    <div className="game-question-number-text">{index + 1}</div>
+                  </div>
+                ))}
               </div>
             </div>
-            <div
-              style={{
-                height: 84,
-              }}
-            />
-            <div className="player-game-nav">
-              <div
-                style={{
-                  position: "absolute",
-                  backgroundImage: `url(${BackgroundImage})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  minHeight: "100%",
-                  width: "100%",
-                  overflow: "hidden",
-                }}
-              />
+
+            <div style={{ display: "flex", justifyContent: "space-evenly" }}>
               <div className="player-home-btn">
-                <HomeBtn />
+                <HomeBtn onClick={handleRestartGame} />
               </div>
               <div className="player-lg-btn">
-                <LanguageBtn />
+                <LanguageBtn onClick={handleLanguageChange} />
               </div>
             </div>
           </>
