@@ -47,25 +47,27 @@ function Host() {
     });
 
     // To update player list
-    socket.on("PLAYER_LIST", (data) => {
-      var sortedData = data?.players.sort((a, b) => a?.score - b?.score);
-      // setPlayers(sortedData);
-      setPlayers(data?.players);
-      console.log(data?.players);
+    socket.on("PLAYER_LIST", (players) => {
+      var sortedData = JSON.parse(players)
+        .sort((a, b) => b?.score - a?.score)
+        ?.reverse();
+      setPlayers(sortedData);
+      // setPlayers(players);
+      console.log(sortedData, JSON.parse(players));
     });
 
-    socket.on("RESULTS_TO_ALL", (data) => {
-      var sortedData = data?.players.sort((a, b) => a?.score - b?.score);
+    socket.on("RESULTS_TO_ALL", (players) => {
+      var sortedData = JSON.parse(players).sort((a, b) => b?.score - a?.score);
       setPlayers(sortedData);
       // setPlayers(data?.players);
-      console.log(data);
+      console.log(players);
     });
 
-    socket.on("PLAYER_DATA_UPDATE", (data) => {
-      var sortedData = data?.players.sort((a, b) => a?.score - b?.score);
-      // setPlayers(sortedData);
-      setPlayers(data?.players);
-      console.log(data);
+    socket.on("PLAYER_DATA_UPDATE", (players) => {
+      var sortedData = JSON.parse(players).sort((a, b) => b?.score - a?.score);
+      setPlayers(sortedData);
+      // setPlayers(players);
+      console.log(players);
     });
 
     return () => {
@@ -181,7 +183,7 @@ function Host() {
               background: "#FFECBC",
             }}
           />
-          <img className="host-result-podium" src={PodiumImg} />
+          <img className="host-result-podium" src={PodiumImg} alt="..." />
           {/* 1st Rank */}
           {players?.length > 0 && (
             <>
@@ -190,11 +192,13 @@ function Host() {
               </div>
               <div className="host-first-rank-details">
                 <div className="host-first-rank-details-place">
-                  First Place!
+                  {Data.languages[language].first_place}
                 </div>
-                <div className="host-first-rank-details-score">Score</div>
+                <div className="host-first-rank-details-score">
+                  {Data.languages[language].score}
+                </div>
                 <div className="host-first-rank-details-point">
-                  {players[0]?.score} points
+                  {players[0]?.score} {Data.languages[language].points}
                 </div>
               </div>
             </>
@@ -208,11 +212,13 @@ function Host() {
               </div>
               <div className="host-second-rank-details">
                 <div className="host-second-rank-details-place">
-                  Second Place!
+                  {Data.languages[language].second_place}
                 </div>
-                <div className="host-second-rank-details-score">Score</div>
+                <div className="host-second-rank-details-score">
+                  {Data.languages[language].score}
+                </div>
                 <div className="host-second-rank-details-point">
-                  {players[1]?.score} points
+                  {players[1]?.score} {Data.languages[language].points}
                 </div>
               </div>
             </>
@@ -225,11 +231,13 @@ function Host() {
               </div>
               <div className="host-third-rank-details">
                 <div className="host-third-rank-details-place">
-                  Third Place!
+                  {Data.languages[language].third_place}
                 </div>
-                <div className="host-third-rank-details-score">Score</div>
+                <div className="host-third-rank-details-score">
+                  {Data.languages[language].score}
+                </div>
                 <div className="host-third-rank-details-point">
-                  {players[2]?.score} points
+                  {players[2]?.score} {Data.languages[language].points}
                 </div>
               </div>
             </>
@@ -237,7 +245,7 @@ function Host() {
           {/* Other Ranks */}
           {players?.length > 3 && (
             <div className="host-other-rank">
-              {players?.splice(0, 3).map((item, index) => (
+              {players?.slice(3, players.length).map((item, index) => (
                 <div className="host-other-rank-card" key={index}>
                   <div className="host-other-rank-name">{item?.name}</div>
                   <div className="host-other-rank-number">{index + 4}th</div>
@@ -509,7 +517,7 @@ function Host() {
             <div className="host-result-heading">
               {Data.languages[language].results}
             </div>
-            <img className="host-result-podium" src={PodiumImg} />
+            <img className="host-result-podium" src={PodiumImg} alt="..." />
             {/* 1st Rank */}
             {players?.length > 0 && (
               <>
@@ -518,11 +526,13 @@ function Host() {
                 </div>
                 <div className="host-first-rank-details">
                   <div className="host-first-rank-details-place">
-                    First Place!
+                    {Data.languages[language].first_place}
                   </div>
-                  <div className="host-first-rank-details-score">Score</div>
+                  <div className="host-first-rank-details-score">
+                    {Data.languages[language].score}
+                  </div>
                   <div className="host-first-rank-details-point">
-                    {players[0]?.score} points
+                    {players[0]?.score} {Data.languages[language].points}
                   </div>
                 </div>
               </>
@@ -536,11 +546,13 @@ function Host() {
                 </div>
                 <div className="host-second-rank-details">
                   <div className="host-second-rank-details-place">
-                    Second Place!
+                    {Data.languages[language].second_place}
                   </div>
-                  <div className="host-second-rank-details-score">Score</div>
+                  <div className="host-second-rank-details-score">
+                    {Data.languages[language].score}
+                  </div>
                   <div className="host-second-rank-details-point">
-                    {players[1]?.score} points
+                    {players[1]?.score} {Data.languages[language].points}
                   </div>
                 </div>
               </>
@@ -554,11 +566,13 @@ function Host() {
                 </div>
                 <div className="host-third-rank-details">
                   <div className="host-third-rank-details-place">
-                    Third Place!
+                    {Data.languages[language].third_place}
                   </div>
-                  <div className="host-third-rank-details-score">Score</div>
+                  <div className="host-third-rank-details-score">
+                    {Data.languages[language].score}
+                  </div>
                   <div className="host-third-rank-details-point">
-                    {players[2]?.score} points
+                    {players[2]?.score} {Data.languages[language].points}
                   </div>
                 </div>
               </>
@@ -566,7 +580,7 @@ function Host() {
             {/* Other Ranks */}
             {players?.length > 3 && (
               <div className="host-other-rank">
-                {players?.splice(0, 3).map((item, index) => (
+                {players?.slice(3, players.length).map((item, index) => (
                   <div className="host-other-rank-card" key={index}>
                     <div className="host-other-rank-name">{item?.name}</div>
                     <div className="host-other-rank-number">{index + 4}th</div>

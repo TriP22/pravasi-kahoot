@@ -49,7 +49,10 @@ io.on("connection", (socket) => {
         break;
       case "result":
         socket.broadcast.emit("GAME_STATUS", data);
-        socket.broadcast.emit("RESULTS_TO_ALL", players);
+        socket.broadcast.emit(
+          "RESULTS_TO_ALL",
+          JSON.stringify(players.players)
+        );
         break;
       default:
     }
@@ -57,13 +60,13 @@ io.on("connection", (socket) => {
 
   socket.on("HOST_RESTART", () => {
     players = new Players();
-    socket.emit("PLAYER_LIST", players);
+    socket.emit("PLAYER_LIST", JSON.stringify(players.players));
     currentQuestion = 0;
   });
 
   socket.on("HOST_CURRENT_QUESTION", (data) => {
     socket.broadcast.emit("CURRENT_QUESTION", data);
-    socket.emit("PLAYER_DATA_UPDATE", players);
+    socket.emit("PLAYER_DATA_UPDATE", JSON.stringify(players.players));
   });
 
   // FROM PLAYER
@@ -80,13 +83,13 @@ io.on("connection", (socket) => {
       players.addPlayer(hostId, socket.id, data.nickName, 0);
       console.log("playerss", players);
 
-      socket.to(hostId).emit("PLAYER_LIST", players);
+      socket.to(hostId).emit("PLAYER_LIST", JSON.stringify(players.players));
     }
   });
 
   socket.on("PLAYER_RESTART", () => {
     players.removePlayer(socket.id);
-    socket.to(hostId).emit("PLAYER_LIST", players);
+    socket.to(hostId).emit("PLAYER_LIST", JSON.stringify(players.players));
   });
 
   socket.on("PLAYER_ANSWER", (data) => {
@@ -94,7 +97,9 @@ io.on("connection", (socket) => {
     player.score += data.timer;
     console.log(players);
 
-    socket.to(hostId).emit("PLAYER_DATA_UPDATE", players);
+    socket
+      .to(hostId)
+      .emit("PLAYER_DATA_UPDATE", JSON.stringify(players.players));
   });
 
   socket.on("disconnect", function () {
@@ -105,7 +110,7 @@ io.on("connection", (socket) => {
       players = new Players();
     } else {
       players.removePlayer(socket.id);
-      socket.to(hostId).emit("PLAYER_LIST", players);
+      socket.to(hostId).emit("PLAYER_LIST", JSON.stringify(players.players));
     }
   });
 });

@@ -60,10 +60,10 @@ function Player() {
     });
 
     socket.on("RESULTS_TO_ALL", (data) => {
-      var sortedData = data?.players.sort((a, b) => a?.score - b?.score);
-      // setPlayers(sortedData);
-      setPlayers(data?.players);
-      console.log(data);
+      var sortedData = JSON.parse(players).sort((a, b) => b?.score - a?.score);
+      setPlayers(sortedData);
+      // setPlayers(players);
+      console.log(players);
     });
 
     return () => {
@@ -438,7 +438,11 @@ function Player() {
             </div>
 
             <div className="player-result-podium">
-              <img className="player-result-podium-img" src={PodiumImg} />
+              <img
+                className="player-result-podium-img"
+                src={PodiumImg}
+                alt="..."
+              />
               {/* 1st Rank */}
               {players?.length > 0 && (
                 <>
@@ -447,11 +451,13 @@ function Player() {
                   </div>
                   <div className="player-first-rank-details">
                     <div className="player-first-rank-details-place">
-                      First Place!
+                      {Data.languages[language].first_place}
                     </div>
-                    <div className="player-first-rank-details-score">Score</div>
+                    <div className="player-first-rank-details-score">
+                      {Data.languages[language].score}
+                    </div>
                     <div className="player-first-rank-details-point">
-                      {players[0].score} points
+                      {players[0]?.score} {Data.languages[language].points}
                     </div>
                   </div>
                 </>
@@ -464,13 +470,13 @@ function Player() {
                   </div>
                   <div className="player-second-rank-details">
                     <div className="player-second-rank-details-place">
-                      Second Place!
+                      {Data.languages[language].second_place}
                     </div>
                     <div className="player-second-rank-details-score">
-                      Score
+                      {Data.languages[language].score}
                     </div>
                     <div className="player-second-rank-details-point">
-                      {players[1].score} points
+                      {players[1].score} {Data.languages[language].points}
                     </div>
                   </div>
                 </>
@@ -483,11 +489,13 @@ function Player() {
                   </div>
                   <div className="player-third-rank-details">
                     <div className="player-third-rank-details-place">
-                      Third Place!
+                      {Data.languages[language].third_place}
                     </div>
-                    <div className="player-third-rank-details-score">Score</div>
+                    <div className="player-third-rank-details-score">
+                      {Data.languages[language].score}
+                    </div>
                     <div className="player-third-rank-details-point">
-                      {players[2].score} points
+                      {players[2].score} {Data.languages[language].points}
                     </div>
                   </div>
                 </>
@@ -497,7 +505,7 @@ function Player() {
             {/* Other Ranks */}
             {players?.length > 3 && (
               <div className="player-other-rank">
-                {players?.splice(0, 3).map((item, index) => (
+                {players?.slice(3, players.length).map((item, index) => (
                   <div className="player-other-rank-card" key={index}>
                     <div className="player-other-rank-name">{item?.name}</div>
                     <div className="player-other-rank-number">
