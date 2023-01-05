@@ -11,8 +11,8 @@ function App() {
       <div className="App">
         <Router>
           <Routes>
-            <Route exact path="" element={<Player />} />
-            <Route exact path="host" element={<Host />} />
+            <Route exact path="player" element={<Player />} />
+            <Route exact path="" element={<Host />} />
             <Route path="*" element={<h6>Not found</h6>} />
           </Routes>
         </Router>

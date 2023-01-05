@@ -37,7 +37,7 @@ function Host() {
     // If host already exists
     socket.on("HOST_FORCED_DISCONNECT", (data) => {
       if (socket.id === data) {
-        window.location.href = "/";
+        window.location.href = "/player";
       }
     });
 
@@ -333,7 +333,7 @@ function Host() {
                 }}
               >
                 <QRCode
-                  value={window.location.origin}
+                  value={window.location.origin + "/player"}
                   bgColor="#ffffff00"
                   fgColor="#ffffff"
                 />
