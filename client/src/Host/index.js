@@ -13,119 +13,9 @@ import HostOption from "../components/HostOption";
 
 import { SocketContext } from "../context/socket";
 import Data from "../assets/data.json";
-
-const Players = [
-  {
-    hostId: "kjsdnfkjs",
-    playerId: "skvjnskjdv",
-    name: "Bunty",
-    gameData: {},
-  },
-  {
-    hostId: "kjsdnfkjs",
-    playerId: "asd",
-    name: "Bubli",
-    gameData: {},
-  },
-
-  {
-    hostId: "kjsdnfkjs",
-    playerId: "sfasfsaf",
-    name: "Jugmohan",
-    gameData: {},
-  },
-  {
-    hostId: "kjsdnfkjs",
-    playerId: "skvjnskjdv",
-    name: "Bunty",
-    gameData: {},
-  },
-  {
-    hostId: "kjsdnfkjs",
-    playerId: "asd",
-    name: "Bubli Bouncer",
-    gameData: {},
-  },
-  {
-    hostId: "kjsdnfkjs",
-    playerId: "asd",
-    name: "Bubli",
-    gameData: {},
-  },
-
-  {
-    hostId: "kjsdnfkjs",
-    playerId: "sfasfsaf",
-    name: "Jugmohan Khan",
-    gameData: {},
-  },
-  {
-    hostId: "kjsdnfkjs",
-    playerId: "sfasfsaf",
-    name: "Puspa",
-    gameData: {},
-  },
-  {
-    hostId: "kjsdnfkjs",
-    playerId: "sfasfsaf",
-    name: "Jonti",
-    gameData: {},
-  },
-  {
-    hostId: "kjsdnfkjs",
-    playerId: "sfasfsaf",
-    name: "jumjod",
-    gameData: {},
-  },
-  {
-    hostId: "kjsdnfkjs",
-    playerId: "sfasfsaf",
-    name: "Rappperiya",
-    gameData: {},
-  },
-  {
-    hostId: "kjsdnfkjs",
-    playerId: "sfasfsaf",
-    name: "Puspa",
-    gameData: {},
-  },
-  {
-    hostId: "kjsdnfkjs",
-    playerId: "sfasfsaf",
-    name: "Jonti",
-    gameData: {},
-  },
-  {
-    hostId: "kjsdnfkjs",
-    playerId: "sfasfsaf",
-    name: "jumjod",
-    gameData: {},
-  },
-  {
-    hostId: "kjsdnfkjs",
-    playerId: "sfasfsaf",
-    name: "Puspa",
-    gameData: {},
-  },
-  {
-    hostId: "kjsdnfkjs",
-    playerId: "sfasfsaf",
-    name: "Jonti",
-    gameData: {},
-  },
-  {
-    hostId: "kjsdnfkjs",
-    playerId: "sfasfsaf",
-    name: "jumjod",
-    gameData: {},
-  },
-  {
-    hostId: "kjsdnfkjs",
-    playerId: "sfasfsaf",
-    name: "Rappperiya",
-    gameData: {},
-  },
-];
+import PodiumImg from "../assets/podium.svg";
+import Lottie from "react-lottie";
+import animationData from "../assets/lotties/celebration";
 
 function Host() {
   const socket = useContext(SocketContext);
@@ -133,8 +23,9 @@ function Host() {
   const [players, setPlayers] = useState([]);
   const [gameStatus, setGameStatus] = useState("splash");
   const [language, setLanguage] = useState(0);
-  const [timer, setTimer] = useState(30);
+  const [timer, setTimer] = useState(15);
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [showMid, setShowMid] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("language") !== null) {
@@ -157,10 +48,23 @@ function Host() {
 
     // To update player list
     socket.on("PLAYER_LIST", (data) => {
+      var sortedData = data?.players.sort((a, b) => a?.score - b?.score);
+      // setPlayers(sortedData);
       setPlayers(data?.players);
+      console.log(data?.players);
     });
 
-    socket.on("SORTED_SCORE", (data) => {
+    socket.on("RESULTS_TO_ALL", (data) => {
+      var sortedData = data?.players.sort((a, b) => a?.score - b?.score);
+      setPlayers(sortedData);
+      // setPlayers(data?.players);
+      console.log(data);
+    });
+
+    socket.on("PLAYER_DATA_UPDATE", (data) => {
+      var sortedData = data?.players.sort((a, b) => a?.score - b?.score);
+      // setPlayers(sortedData);
+      setPlayers(data?.players);
       console.log(data);
     });
 
@@ -168,7 +72,8 @@ function Host() {
       socket.off("HOST_FORCED_DISCONNECT");
       socket.off("GAME_STATUS");
       socket.off("PLAYER_LIST");
-      socket.off("SORTED_SCORE");
+      socket.off("RESULTS_TO_ALL");
+      socket.off("PLAYER_DATA_UPDATE");
     };
   }, [socket]);
 
@@ -205,7 +110,7 @@ function Host() {
   const handleLobbyToGame = () => {
     socket.emit("HOST_GAME_STATUS", { gameStatus: "game" });
     setGameStatus("game");
-    setTimer(30);
+    setTimer(15);
   };
   const handleGameToResult = () => {
     socket.emit("HOST_GAME_STATUS", { gameStatus: "result" });
@@ -217,16 +122,20 @@ function Host() {
     socket.emit("HOST_RESTART");
     setGameStatus("splash");
     setCurrentQuestion(0);
-    setTimer(30);
+    setTimer(15);
   };
 
   const handleNextQuestion = () => {
     if (Data.languages[language].questions.length > currentQuestion + 1) {
-      setCurrentQuestion(currentQuestion + 1);
-      setTimer(30);
-      socket.emit("HOST_CURRENT_QUESTION", {
-        currentQuestion: currentQuestion + 1,
-      });
+      setShowMid(true);
+      setTimeout(() => {
+        setCurrentQuestion(currentQuestion + 1);
+        setTimer(15);
+        socket.emit("HOST_CURRENT_QUESTION", {
+          currentQuestion: currentQuestion + 1,
+        });
+        setShowMid(false);
+      }, 5000);
     } else {
       handleGameToResult();
     }
@@ -241,8 +150,103 @@ function Host() {
           backgroundPosition: "center",
           minHeight: "100vh",
           overflow: "hidden",
+          position: "relative",
         }}
       >
+        {/* Mid screen */}
+        <div
+          style={{
+            backgroundImage: `url(${RegisterBg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            height: "100vh",
+            width: "100vw",
+            position: "absolute",
+            top: showMid ? 0 : 1080,
+            bottom: showMid ? 0 : 1080,
+            // top: 0,
+            // bottom: 0,
+            left: 0,
+            right: 0,
+            transition: "all 0.3s ",
+            zIndex: 1000,
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              height: 24,
+              width: showMid ? "100vw" : 0,
+              transition: "all 5s",
+              background: "#FFECBC",
+            }}
+          />
+          <img className="host-result-podium" src={PodiumImg} />
+          {/* 1st Rank */}
+          {players?.length > 0 && (
+            <>
+              <div className="host-first-rank-name-card">
+                {players[0]?.name}
+              </div>
+              <div className="host-first-rank-details">
+                <div className="host-first-rank-details-place">
+                  First Place!
+                </div>
+                <div className="host-first-rank-details-score">Score</div>
+                <div className="host-first-rank-details-point">
+                  {players[0]?.score} points
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* 2nd Rank */}
+          {players?.length > 1 && (
+            <>
+              <div className="host-second-rank-name-card">
+                {players[1]?.name}
+              </div>
+              <div className="host-second-rank-details">
+                <div className="host-second-rank-details-place">
+                  Second Place!
+                </div>
+                <div className="host-second-rank-details-score">Score</div>
+                <div className="host-second-rank-details-point">
+                  {players[1]?.score} points
+                </div>
+              </div>
+            </>
+          )}
+          {/* 3rd Rank */}
+          {players?.length > 2 && (
+            <>
+              <div className="host-third-rank-name-card">
+                {players[2]?.name}
+              </div>
+              <div className="host-third-rank-details">
+                <div className="host-third-rank-details-place">
+                  Third Place!
+                </div>
+                <div className="host-third-rank-details-score">Score</div>
+                <div className="host-third-rank-details-point">
+                  {players[2]?.score} points
+                </div>
+              </div>
+            </>
+          )}
+          {/* Other Ranks */}
+          {players?.length > 3 && (
+            <div className="host-other-rank">
+              {players?.splice(0, 3).map((item, index) => (
+                <div className="host-other-rank-card" key={index}>
+                  <div className="host-other-rank-name">{item?.name}</div>
+                  <div className="host-other-rank-number">{index + 4}th</div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
         {/* SPLASH */}
         <div
           style={{
@@ -357,9 +361,9 @@ function Host() {
               </div>
             </div>
             <div className="host-lobby-center-names">
-              {players.length > 0 ? (
+              {players?.length > 0 ? (
                 <div className="host-lobby-name-chip-wrap">
-                  {players.map((item, index) => (
+                  {players?.map((item, index) => (
                     <div className="host-lobby-name-chip" key={index}>
                       {item.name}
                     </div>
@@ -377,7 +381,7 @@ function Host() {
                 </div>
               )}
             </div>
-            {players.length > 1 && (
+            {players?.length > 1 && (
               <button
                 className="host-lobby-start-btn"
                 onClick={handleLobbyToGame}
@@ -503,9 +507,90 @@ function Host() {
         {gameStatus === "result" && (
           <>
             <div className="host-result-heading">
-              Pravasi Bhartiya Diwas Quiz
+              {Data.languages[language].results}
             </div>
-            <div className="host-result-subheading">Leaderboard</div>
+            <img className="host-result-podium" src={PodiumImg} />
+            {/* 1st Rank */}
+            {players?.length > 0 && (
+              <>
+                <div className="host-first-rank-name-card">
+                  {players[0]?.name}
+                </div>
+                <div className="host-first-rank-details">
+                  <div className="host-first-rank-details-place">
+                    First Place!
+                  </div>
+                  <div className="host-first-rank-details-score">Score</div>
+                  <div className="host-first-rank-details-point">
+                    {players[0]?.score} points
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* 2nd Rank */}
+            {players?.length > 1 && (
+              <>
+                <div className="host-second-rank-name-card">
+                  {players[1]?.name}
+                </div>
+                <div className="host-second-rank-details">
+                  <div className="host-second-rank-details-place">
+                    Second Place!
+                  </div>
+                  <div className="host-second-rank-details-score">Score</div>
+                  <div className="host-second-rank-details-point">
+                    {players[1]?.score} points
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* 3rd Rank */}
+            {players?.length > 2 && (
+              <>
+                <div className="host-third-rank-name-card">
+                  {players[2]?.name}
+                </div>
+                <div className="host-third-rank-details">
+                  <div className="host-third-rank-details-place">
+                    Third Place!
+                  </div>
+                  <div className="host-third-rank-details-score">Score</div>
+                  <div className="host-third-rank-details-point">
+                    {players[2]?.score} points
+                  </div>
+                </div>
+              </>
+            )}
+            {/* Other Ranks */}
+            {players?.length > 3 && (
+              <div className="host-other-rank">
+                {players?.splice(0, 3).map((item, index) => (
+                  <div className="host-other-rank-card" key={index}>
+                    <div className="host-other-rank-name">{item?.name}</div>
+                    <div className="host-other-rank-number">{index + 4}th</div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div style={{ position: "absolute" }}>
+              <Lottie
+                isClickToPauseDisabled
+                options={{
+                  loop: true,
+                  autoplay: true,
+                  animationData: animationData,
+
+                  rendererSettings: {
+                    preserveAspectRatio: "xMidYMid slice",
+                  },
+                }}
+                height={1080}
+                width={1920}
+              />
+            </div>
           </>
         )}
         <div className="host-bottom-nav">

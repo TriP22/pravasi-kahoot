@@ -49,10 +49,7 @@ io.on("connection", (socket) => {
         break;
       case "result":
         socket.broadcast.emit("GAME_STATUS", data);
-        socket.broadcast.emit(
-          "SORTED_SCORE"
-          // players?.sort((a, b) => a.score - b.score)
-        );
+        socket.broadcast.emit("RESULTS_TO_ALL", players);
         break;
       default:
     }
@@ -66,6 +63,7 @@ io.on("connection", (socket) => {
 
   socket.on("HOST_CURRENT_QUESTION", (data) => {
     socket.broadcast.emit("CURRENT_QUESTION", data);
+    socket.emit("PLAYER_DATA_UPDATE", players);
   });
 
   // FROM PLAYER
@@ -94,7 +92,9 @@ io.on("connection", (socket) => {
   socket.on("PLAYER_ANSWER", (data) => {
     var player = players.getPlayer(socket.id);
     player.score += data.timer;
-    console.log(player);
+    console.log(players);
+
+    socket.to(hostId).emit("PLAYER_DATA_UPDATE", players);
   });
 
   socket.on("disconnect", function () {

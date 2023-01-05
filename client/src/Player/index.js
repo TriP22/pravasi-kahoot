@@ -14,14 +14,18 @@ import PlayerOptionBtn, {
 
 import { SocketContext } from "../context/socket";
 import Data from "../assets/data.json";
+import PodiumImg from "../assets/podium.svg";
+import Lottie from "react-lottie";
+import animationData from "../assets/lotties/celebration";
 
 function Player() {
   const socket = useContext(SocketContext);
 
+  const [players, setPlayers] = useState([]);
   const [nickName, setNickName] = useState("");
   const [gameStatus, setGameStatus] = useState("splash");
   const [language, setLanguage] = useState(0);
-  const [timer, setTimer] = useState(30);
+  const [timer, setTimer] = useState(15);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [optionSelected, setOptionSelected] = useState(false);
 
@@ -44,18 +48,21 @@ function Player() {
       setGameStatus(data?.gameStatus);
 
       if (data?.gameStatus === "game") {
-        setTimer(30);
+        setTimer(15);
         setCurrentQuestion(0);
       }
     });
 
     socket.on("CURRENT_QUESTION", (data) => {
       setCurrentQuestion(data.currentQuestion);
-      setTimer(30);
+      setTimer(15);
       setOptionSelected(null);
     });
 
-    socket.on("SORTED_SCORE", (data) => {
+    socket.on("RESULTS_TO_ALL", (data) => {
+      var sortedData = data?.players.sort((a, b) => a?.score - b?.score);
+      // setPlayers(sortedData);
+      setPlayers(data?.players);
       console.log(data);
     });
 
@@ -63,7 +70,7 @@ function Player() {
       socket.off("HOST_NONE");
       socket.off("GAME_STATUS");
       socket.off("CURRENT_QUESTION");
-      socket.off("SORTED_SCORE");
+      socket.off("RESULTS_TO_ALL");
     };
   }, [socket]);
 
@@ -94,28 +101,14 @@ function Player() {
     }
   };
 
-  // function openFullscreen() {
-  //   var elem = document.getElementById("fullScreen");
-  //   if (elem.requestFullscreen) {
-  //     elem.requestFullscreen();
-  //   } else if (elem.webkitRequestFullscreen) {
-  //     /* Safari */
-  //     elem.webkitRequestFullscreen();
-  //   } else if (elem.msRequestFullscreen) {
-  //     /* IE11 */
-  //     elem.msRequestFullscreen();
-  //   }
-  // }
-
   const handleSplashToRegister = () => {
     setGameStatus("register");
-    // openFullscreen();
   };
 
   const handleRestartGame = () => {
     setGameStatus("splash");
     setCurrentQuestion(0);
-    setTimer(30);
+    setTimer(15);
     socket.emit("PLAYER_RESTART");
   };
 
@@ -155,7 +148,6 @@ function Player() {
             overflow: "hidden",
             position: "absolute",
             top: gameStatus === "splash" ? 0 : "-100vh",
-            bottom: gameStatus === "splash" ? 0 : "100vh",
             left: 0,
             right: 0,
             zIndex: 100,
@@ -425,29 +417,102 @@ function Player() {
         {/* RESULT */}
         {gameStatus === "result" && (
           <>
-            <div className="result-center">
-              <div className="result-result-text">
-                {Data.languages[language].your_result}
-              </div>
-              <div className="result-congrats-text">CONGRATULATIONS!</div>
-              <div className="result-heading">YOU WON</div>
-              <div className="result-rank">
-                <div className="result-rank-text">1</div>
-              </div>
-              <button className="result-restart-btn">
-                <div
-                  className="result-restart-btn-text"
-                  onClick={handleRestartGame}
-                >
-                  {Data.languages[language].restat_game}
-                </div>
-              </button>
+            <div style={{ position: "absolute" }}>
+              <Lottie
+                isClickToPauseDisabled
+                options={{
+                  loop: true,
+                  autoplay: true,
+                  animationData: animationData,
+                  rendererSettings: {
+                    preserveAspectRatio: "xMidYMid slice",
+                  },
+                }}
+                height="100vh"
+                width="100vw"
+              />
             </div>
-            <div className="player-nav">
-              <div className="player-home-btn">
+
+            <div className="player-result-heading">
+              {Data.languages[language].results}
+            </div>
+
+            <div className="player-result-podium">
+              <img className="player-result-podium-img" src={PodiumImg} />
+              {/* 1st Rank */}
+              {players?.length > 0 && (
+                <>
+                  <div className="player-first-rank-name-card">
+                    {players[0].name}
+                  </div>
+                  <div className="player-first-rank-details">
+                    <div className="player-first-rank-details-place">
+                      First Place!
+                    </div>
+                    <div className="player-first-rank-details-score">Score</div>
+                    <div className="player-first-rank-details-point">
+                      {players[0].score} points
+                    </div>
+                  </div>
+                </>
+              )}
+              {/* 2nd Rank */}
+              {players?.length > 1 && (
+                <>
+                  <div className="player-second-rank-name-card">
+                    {players[1].name}
+                  </div>
+                  <div className="player-second-rank-details">
+                    <div className="player-second-rank-details-place">
+                      Second Place!
+                    </div>
+                    <div className="player-second-rank-details-score">
+                      Score
+                    </div>
+                    <div className="player-second-rank-details-point">
+                      {players[1].score} points
+                    </div>
+                  </div>
+                </>
+              )}
+              {/* 3rd Rank */}
+              {players?.length > 2 && (
+                <>
+                  <div className="player-third-rank-name-card">
+                    {players[2].name}
+                  </div>
+                  <div className="player-third-rank-details">
+                    <div className="player-third-rank-details-place">
+                      Third Place!
+                    </div>
+                    <div className="player-third-rank-details-score">Score</div>
+                    <div className="player-third-rank-details-point">
+                      {players[2].score} points
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Other Ranks */}
+            {players?.length > 3 && (
+              <div className="player-other-rank">
+                {players?.splice(0, 3).map((item, index) => (
+                  <div className="player-other-rank-card" key={index}>
+                    <div className="player-other-rank-name">{item?.name}</div>
+                    <div className="player-other-rank-number">
+                      {index + 4}th
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="player-result-nav">
+              <div className="player-result-home-btn">
                 <HomeBtn onClick={handleRestartGame} />
               </div>
-              <div className="player-lg-btn">
+              <div className="player-result-lg-btn">
                 <LanguageBtn onClick={handleLanguageChange} />
               </div>
             </div>

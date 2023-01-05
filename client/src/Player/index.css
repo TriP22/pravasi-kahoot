@@ -257,50 +257,13 @@
 }
 
 /* RESULT */
-.result-center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  max-width: 400px;
-}
-
 .result-result-text {
   padding: 0px 16px 32px 16px;
   font-family: "Playfair Display";
   font-style: normal;
   font-weight: 700;
   font-size: 24px;
-
   text-align: center;
-
-  color: #ffecbc;
-}
-
-.result-congrats-text {
-  padding: 0px 16px 8px 16px;
-  font-family: "Montserrat";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 18px;
-
-  text-align: center;
-
-  color: #ffecbc;
-}
-
-.result-heading {
-  padding: 0px 16px 16px 16px;
-  font-family: "Playfair Display";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 43.6091px;
-  line-height: 120.5%;
-  /* identical to box height, or 53px */
-
-  text-align: center;
-
   color: #ffecbc;
 }
 
@@ -350,4 +313,253 @@
   text-align: center;
 
   color: #573d2a;
+}
+
+/* RESULT */
+.player-result-heading {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+
+  text-align: center;
+
+  color: #ffecbc;
+
+  mix-blend-mode: normal;
+  text-shadow: 0px 3px 7px rgba(0, 0, 0, 0.25);
+  padding-top: 32px;
+}
+
+.player-result-podium {
+  width: 100%;
+  padding-top: 24px;
+  position: relative;
+}
+
+.player-result-podium-img {
+  width: 100%;
+}
+
+.player-first-rank-name-card {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 25%;
+
+  background: #ffecbc;
+  border: 2.84002px solid #ffbd3e;
+  box-shadow: 0px 5px 11px rgba(0, 0, 0, 0.5);
+  border-radius: 30.2936px;
+
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 100%;
+  padding: 6px 16px;
+
+  color: #573d2a;
+}
+
+.player-first-rank-details {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 10%;
+}
+
+.player-first-rank-details-place {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 100%;
+  margin-bottom: 20%;
+
+  color: #573d2a;
+}
+
+.player-first-rank-details-score {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+
+  color: #ffffff;
+}
+
+.player-first-rank-details-point {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 100%;
+
+  color: #ffffff;
+}
+
+.player-second-rank-name-card {
+  position: absolute;
+  left: 16%;
+  transform: translateX(-50%);
+  top: 43%;
+  background: #ffecbc;
+  border: 2.5px solid #ffbd3e;
+  box-shadow: 0px 5px 11px rgba(0, 0, 0, 0.5);
+  border-radius: 500px;
+
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 100%;
+  padding: 6px 16px;
+
+  color: #573d2a;
+}
+
+.player-second-rank-details {
+  position: absolute;
+  left: 17%;
+  transform: translateX(-50%);
+  bottom: 9%;
+}
+
+.player-second-rank-details-place {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 100%;
+  margin-bottom: 16px;
+
+  color: #573d2a;
+}
+
+.player-second-rank-details-score {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 100%;
+
+  color: #fff;
+}
+
+.player-second-rank-details-point {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 100%;
+
+  color: #fff;
+}
+
+.player-third-rank-name-card {
+  position: absolute;
+  right: 16%;
+  transform: translateX(50%);
+  top: 52%;
+  background: #ffecbc;
+  border: 2.5px solid #ffbd3e;
+  box-shadow: 0px 5px 11px rgba(0, 0, 0, 0.5);
+  border-radius: 500px;
+
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 100%;
+  padding: 6px 16px;
+
+  color: #573d2a;
+}
+
+.player-third-rank-details {
+  position: absolute;
+  right: 17%;
+  transform: translateX(50%);
+  bottom: 7%;
+}
+
+.player-third-rank-details-place {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 9px;
+  line-height: 100%;
+  margin-bottom: 13px;
+
+  color: #573d2a;
+}
+
+.player-third-rank-details-score {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 9px;
+  line-height: 100%;
+
+  color: #ffffff;
+}
+
+.player-third-rank-details-point {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 100%;
+
+  color: #ffffff;
+}
+
+.player-other-rank {
+  padding: 16px;
+}
+
+.player-other-rank-card {
+  background: rgba(125, 83, 38, 0.5);
+  border: 2.25px solid #ffecbc;
+  box-shadow: inset 0px 4.5px 11.5px rgba(0, 0, 0, 0.25);
+  border-radius: 500px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 16px 8px 16px;
+}
+
+.player-other-rank-name {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+
+  color: #ffffff;
+}
+
+.player-other-rank-number {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+
+  color: #ffffff;
+}
+
+.player-result-nav {
+  display: flex;
+  justify-content: space-evenly;
+  bottom: 0;
+  width: 100%;
+}
+
+.player-result-home-btn {
+  padding: 16px 16px 24px 16px;
+  text-align: -webkit-center;
+}
+.player-result-lg-btn {
+  padding: 16px 16px 24px 16px;
+  text-align: -webkit-center;
 }

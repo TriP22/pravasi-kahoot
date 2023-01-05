@@ -34,6 +34,7 @@
       "nickname": "Nickname",
       "for_host": "for host to start game",
       "your_result": "Your Result",
+      "results": "RESULTS",
       "questions": [
         {
           "id": 1,

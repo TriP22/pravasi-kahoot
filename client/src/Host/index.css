@@ -334,11 +334,13 @@
 
 /* RESULT */
 .host-result-heading {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   font-family: "Playfair Display";
   font-style: normal;
   font-weight: 700;
   font-size: 56px;
-  line-height: 200%;
 
   text-align: center;
 
@@ -346,18 +348,231 @@
 
   mix-blend-mode: normal;
   text-shadow: 0px 3px 7px rgba(0, 0, 0, 0.25);
-  padding-top: 48px;
+  padding-top: 32px;
 }
 
-.host-result-subheading {
+.host-result-podium {
+  position: absolute;
+  width: 875px;
+  height: 793px;
+  left: 200px;
+  top: 143px;
+}
+
+.host-first-rank-name-card {
+  position: absolute;
+  left: 26.2%;
+  right: 59.22%;
+  top: 27.96%;
+  bottom: 64.63%;
+
+  background: #ffecbc;
+  border: 2.84002px solid #ffbd3e;
+  box-shadow: 0px 4.73337px 11.3601px rgba(0, 0, 0, 0.46);
+  border-radius: 30.2936px;
+
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 300%;
+
+  color: #573d2a;
+}
+
+.host-first-rank-details {
+  position: absolute;
+  left: 25%;
+  right: 58%;
+  top: 64%;
+  bottom: 0%;
+}
+
+.host-first-rank-details-place {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 17.0401px;
+  line-height: 120.5%;
+  margin-bottom: 72px;
+
+  color: #573d2a;
+}
+
+.host-first-rank-details-score {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 23.103px;
+  line-height: 120.5%;
+
+  color: #ffffff;
+}
+
+.host-first-rank-details-point {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 39.7083px;
+  line-height: 120.5%;
+
+  color: #ffffff;
+}
+
+.host-second-rank-name-card {
+  position: absolute;
+  left: 14%;
+  right: 77.86%;
+  top: 44.63%;
+  bottom: 50.74%;
+
+  background: #ffecbc;
+  border: 2.84002px solid #9bd1e2;
+  box-shadow: 0px 1.23708px 6.62672px rgba(0, 0, 0, 0.46);
+  border-radius: 16.0935px;
+
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 280%;
+
+  color: #573d2a;
+}
+
+.host-second-rank-details {
+  position: absolute;
+  left: 12%;
+  right: 75%;
+  top: 68%;
+  bottom: 0%;
+}
+
+.host-second-rank-details-place {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 17.0401px;
+  line-height: 120.5%;
+  margin-bottom: 48px;
+
+  color: #573d2a;
+}
+
+.host-second-rank-details-score {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 120.5%;
+
+  color: #ffffff;
+}
+
+.host-second-rank-details-point {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 120.5%;
+
+  color: #ffffff;
+}
+
+.host-third-rank-name-card {
+  position: absolute;
+  left: 44.95%;
+  right: 46.94%;
+  top: 51%;
+  bottom: 44%;
+
+  background: #ffecbc;
+  border: 2.84002px solid #fd937b;
+  box-shadow: 0px 1.23708px 6.62672px rgba(0, 0, 0, 0.46);
+  border-radius: 16.0935px;
+
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 280%;
+
+  color: #573d2a;
+}
+
+.host-third-rank-details {
+  position: absolute;
+  left: 42.5%;
+  right: 46%;
+  top: 71%;
+  bottom: 0%;
+}
+
+.host-third-rank-details-place {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 17.0401px;
+  line-height: 120.5%;
+  margin-bottom: 28px;
+
+  color: #573d2a;
+}
+
+.host-third-rank-details-score {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 120.5%;
+
+  color: #ffffff;
+}
+
+.host-third-rank-details-point {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 120.5%;
+
+  color: #ffffff;
+}
+
+.host-other-rank {
+  position: absolute;
+  width: 500px;
+  height: 768px;
+  left: 1218px;
+  top: 150px;
+  overflow: scroll;
+}
+
+.host-other-rank-card {
+  background: rgba(125, 83, 38, 0.5);
+  border: 2.25px solid #ffecbc;
+  box-shadow: inset 0px 4.5px 11.5px rgba(0, 0, 0, 0.25);
+  border-radius: 500px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 48px 12px 48px;
+}
+
+.host-other-rank-name {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+
+  color: #ffffff;
+}
+
+.host-other-rank-number {
   font-family: "Playfair Display";
   font-style: normal;
   font-weight: 700;
-  font-size: 50px;
-  line-height: 125%;
+  font-size: 24px;
 
-  text-align: center;
-
-  color: #ffecbc;
-  padding-top: 24px;
+  color: #ffffff;
 }
