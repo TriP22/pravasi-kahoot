@@ -16,6 +16,7 @@ import Data from "../assets/data.json";
 import PodiumImg from "../assets/podium.svg";
 import Lottie from "react-lottie";
 import animationData from "../assets/lotties/celebration";
+import config from "../config.json";
 
 function Host() {
   const socket = useContext(SocketContext);
@@ -329,13 +330,14 @@ function Host() {
               </div>
               <div
                 style={{
-                  padding: 48,
+                  padding: 24,
                 }}
               >
                 <QRCode
-                  value={window.location.origin + "/player"}
+                  value={`http://${config.ip}:3000/player`}
                   bgColor="#ffffff00"
                   fgColor="#ffffff"
+                  size={300}
                 />
               </div>
 

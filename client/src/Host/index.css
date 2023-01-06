@@ -68,7 +68,7 @@
   font-family: "Montserrat";
   font-style: normal;
   font-weight: 700;
-  font-size: 50px;
+  font-size: 42px;
   line-height: 140%;
 
   text-align: center;
@@ -92,13 +92,13 @@
   font-family: "Playfair Display";
   font-style: normal;
   font-weight: 700;
-  font-size: 24px;
-  line-height: 180%;
+  font-size: 22px;
+  line-height: 160%;
 
   text-align: center;
 
   color: #ffecbc;
-  padding: 24px 0 24px 0;
+  padding: 16px 0 24px 0;
 }
 
 .host-register-next-btn {
@@ -289,7 +289,7 @@
   justify-content: center;
 
   position: fixed;
-  bottom: 50px;
+  bottom: 36px;
   left: 50%;
   transform: translate(-50%);
 }
@@ -298,7 +298,7 @@
   font-family: "Montserrat";
   font-style: normal;
   font-weight: 600;
-  font-size: 24px;
+  font-size: 18px;
   line-height: 32px;
 
   text-align: center;
@@ -306,20 +306,19 @@
   color: #fff;
 
   text-shadow: 1.5px -2px 8.5px rgba(0, 0, 0, 0.25);
-  margin: 16px;
 
   background: #745331;
   border: 1.56048px solid #ffffff;
   box-shadow: 1.5px -2px 8.5px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
-  padding: 10px 20px;
+  padding: 8px 16px;
 }
 
 .host-game-number {
   font-family: "Montserrat";
   font-style: normal;
   font-weight: 600;
-  font-size: 24px;
+  font-size: 18px;
   line-height: 32px;
 
   text-align: center;
@@ -327,9 +326,8 @@
   color: rgba(255, 255, 255, 0.6);
 
   text-shadow: 1.5px -2px 8.5px rgba(0, 0, 0, 0.25);
-  margin: 16px;
 
-  padding: 10px 20px;
+  padding: 8px 16px;
 }
 
 /* RESULT */
