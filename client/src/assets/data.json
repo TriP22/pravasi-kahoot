@@ -25,7 +25,7 @@
       "rule2": "Each Person will have 30 seconds to answer the question",
       "rule3": "The first person to give the right answer will get more points ",
       "next": "Next",
-      "restat_game": "Restat Game",
+      "restat_game": "Restart Game",
       "start": "Start",
       "player_joined": "Players joined so far",
       "waiting": "Waiting...",
